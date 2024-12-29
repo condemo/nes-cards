@@ -12,6 +12,6 @@ func main() {
 	flag.Parse()
 
 	apiServer := api.NewApiServer(*addr)
-	fmt.Println("Server starting at port: ", *addr)
+	fmt.Println("Server starting at port", *addr)
 	apiServer.Run()
 }
