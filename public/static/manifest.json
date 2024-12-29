@@ -1,0 +1,26 @@
+{
+  "short_name": "NesCards",
+  "manifest_version": 2,
+  "version": "0.0.1",
+  "name": "NesCards",
+  "start_url": "/",
+  "id": "/",
+  "orientation": "portrait",
+  "display": "standalone",
+  "description": "A GUI program to manage NesCardGame",
+  "icons": [
+    {
+      "src": "./img/icon.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./img/home.jpg",
+      "sizes": "720x1280",
+      "type": "image/jpg",
+      "purpose": "any"
+    }
+  ]
+}
