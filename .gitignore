@@ -1,0 +1,4 @@
+tmp/
+.env
+bin/
+public/views/**/*.txt
