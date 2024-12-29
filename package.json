@@ -1,0 +1,14 @@
+{
+  "name": "nes-cards",
+  "version": "0.0.1-alpha",
+  "description": "A GUI program to manage NesCardGame(provisional)",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gustavo de los Santos",
+  "license": "MIT",
+  "devDependencies": {
+    "daisyui": "^4.12.23"
+  }
+}
