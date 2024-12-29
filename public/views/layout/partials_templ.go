@@ -29,20 +29,20 @@ func Head(title string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\" data-theme=\"garden\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"theme-color\" content=\"#282A36\"><title>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\" data-theme=\"garden\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/layout/partials.templ`, Line: 10, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/layout/partials.templ`, Line: 9, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" | NesCards</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/style.css\"><!-- <link rel=\"manifest\" href=\"/static/manifest.json\"/> --><!-- <script src=\"/static/js/htmx.min.js\"></script> --><!-- <script src=\"/static/js/htmx-ws.js\"></script> --></head><body><div id=\"main-container\" class=\"flex flex-col mx-auto text-center h-screen\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" | NesCards</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/style.css\"><link rel=\"manifest\" href=\"/static/manifest.json\"><script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/htmx-ws.js\"></script></head><body><div id=\"main-container\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
