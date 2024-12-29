@@ -2,3 +2,4 @@ tmp/
 .env
 bin/
 public/views/**/*.txt
+node_modules/
