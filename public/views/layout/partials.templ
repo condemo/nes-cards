@@ -12,8 +12,8 @@ templ Head(title string) {
 			<script src="/static/js/htmx.min.js"></script>
 			<script src="/static/js/htmx-ws.js"></script>
 		</head>
-		<body>
-			<div id="main-container">
+		<body hx-boost="true">
+			<div id="main-container" class="flex flex-col mx-auto text-center h-screen px-1">
 				{ children... }
 			</div>
 		</body>
