@@ -5,8 +5,10 @@ import "github.com/condemo/nes-cards/public/views/layout"
 templ Home() {
 	@layout.Base("Home") {
 		<div id="main-home" class="p-4">
-			// TODO: Crear una vista home y mover GameView a su propia ruta
-			@GameView()
+			<div id="main-view">
+				// TODO: Crear una vista home y mover GameView a su propia ruta
+				@WelcomeView()
+			</div>
 		</div>
 	}
 }

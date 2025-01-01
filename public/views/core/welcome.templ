@@ -1,0 +1,13 @@
+package core
+
+templ WelcomeView() {
+	<div id="welcome-view" class="flex flex-col space-y-5">
+		<h1 class="text-xs"><span class="text-4xl">NES CARDS</span> (provisional)</h1>
+		<div>
+			<form hx-post="/game/new">
+				<img src="/static/img/welcome_img.jpeg" alt="nes tirao" class="w-52 mx-auto"/>
+				<button type="submit" class="btn btn-active btn-primary my-3 text-3xl rounded-2xl">New Game</button>
+			</form>
+		</div>
+	</div>
+}

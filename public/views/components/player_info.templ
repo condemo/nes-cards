@@ -2,14 +2,19 @@ package components
 
 templ PlayersResume() {
 	<div id="players-resume" class="flex flex-row justify-around space-x-1">
-		@PlayerInfo()
-		@PlayerInfo()
+		@PlayerInfo(true)
+		<div class="divider divider-horizontal"></div>
+		@PlayerInfo(false)
 	</div>
 }
 
-templ PlayerInfo() {
+templ PlayerInfo(active bool) {
 	<div id="player-info">
-		<div class="card bg-primary shadow-xl">
+		<div if active {
+	class="card bg-primary shadow-xl"
+} else {
+	class="card bg-base-300 shadow-xl"
+}>
 			<div class="card-body">
 				<h2 class="card-title text-center">Player</h2>
 				<p class="text-3xl font-bold">HP 80</p>

@@ -1,7 +1,10 @@
 package layout
 
+import "github.com/condemo/nes-cards/public/views/components"
+
 templ Base(title string) {
 	@Head(title) {
 		{ children... }
+		@components.NavBottom()
 	}
 }
