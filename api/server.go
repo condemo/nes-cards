@@ -25,9 +25,11 @@ func NewApiServer(addr string) *ApiServer {
 func (s *ApiServer) Run() {
 	router := http.NewServeMux()
 	views := http.NewServeMux()
+	game := http.NewServeMux()
 	fs := http.FileServer(http.Dir("public/static"))
 
 	router.Handle("/", views)
+	router.Handle("/game/", http.StripPrefix("/game", game))
 	router.Handle("/static/", http.StripPrefix("/static", fs))
 
 	server := http.Server{
@@ -39,6 +41,9 @@ func (s *ApiServer) Run() {
 
 	viewsHandler := handlers.NewViewsHandler()
 	viewsHandler.RegisterRoutes(views)
+
+	gameHandler := handlers.NewGameHandler()
+	gameHandler.RegisterRoutes(game)
 
 	go func() {
 		log.Fatal(server.ListenAndServe())
