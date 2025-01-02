@@ -1,14 +1,19 @@
 package components
 
-templ PlayersResume() {
+import (
+	"github.com/condemo/nes-cards/types"
+	"strconv"
+)
+
+templ PlayersResume(p1, p2 *types.Player) {
 	<div id="players-resume" class="flex flex-row justify-around space-x-1">
-		@PlayerInfo(true)
+		@PlayerInfo(p1, true)
 		<div class="divider divider-horizontal"></div>
-		@PlayerInfo(false)
+		@PlayerInfo(p2, false)
 	</div>
 }
 
-templ PlayerInfo(active bool) {
+templ PlayerInfo(p *types.Player, active bool) {
 	<div id="player-info">
 		<div if active {
 	class="card bg-primary shadow-xl"
@@ -16,8 +21,8 @@ templ PlayerInfo(active bool) {
 	class="card bg-base-300 shadow-xl"
 }>
 			<div class="card-body">
-				<h2 class="card-title text-center">Player</h2>
-				<p class="text-3xl font-bold">HP 80</p>
+				<h2 class="card-title text-center">{ p.Name }</h2>
+				<p class="text-3xl font-bold">HP { string(strconv.FormatUint(uint64(p.GetHP()), 10)) }</p>
 				<div class="card-actions justify-end">
 					<!-- <button class="btn btn-primary">Buy Now</button> -->
 				</div>

@@ -14,6 +14,9 @@ templ NewGameView() {
 
 templ GameForm() {
 	<div id="game-form" class="flex flex-col my-5">
+		// TODO: Buscar la manera de pushear la url de `/current-game` después de crear
+		// un juego nuevo la idea sería guardar la partida
+		// en la db -> redirigir a /current-game -> GET req -> db/last-game -> currrentGame
 		<form class="flex flex-col space-y-3" hx-post="/game/new" hx-target="#main-view">
 			<label class="input input-bordered flex items-center gap-2">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">

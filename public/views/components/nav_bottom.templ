@@ -3,7 +3,7 @@ package components
 templ NavBottom() {
 	<div id="nav-bottom">
 		<div class="btm-nav">
-			<button class="active" hx-get="/welcome" hx-target="#main-view">
+			<button class="active" hx-get="/" hx-target="#main-view" hx-push-url="true">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -19,7 +19,7 @@ templ NavBottom() {
 					></path>
 				</svg>
 			</button>
-			<button hx-get="/current-game" hx-target="#main-view">
+			<button hx-get="/current-game" hx-target="#main-view" hx-push-url="true">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"

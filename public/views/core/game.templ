@@ -1,11 +1,14 @@
 package core
 
-import "github.com/condemo/nes-cards/public/views/components"
+import (
+	"github.com/condemo/nes-cards/public/views/components"
+	"github.com/condemo/nes-cards/types"
+)
 
-templ GameView() {
+templ GameView(p1, p2 *types.Player, t1, t2 *types.Tower) {
 	<div id="game-view">
-		@components.PlayersResume()
-		@components.TowersResume()
-		@components.TowersResume()
+		@components.PlayersResume(p1, p2)
+		@components.TowersResume(*t1, *t2)
+		@components.TowersResume(*t1, *t2)
 	</div>
 }
