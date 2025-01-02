@@ -19,3 +19,7 @@ func NewPlayer(name string, hp uint8) *Player {
 func (p *Player) Hit(dmg uint8) {
 	p.hp = p.hp - dmg
 }
+
+func (p *Player) GetHP() uint8 {
+	return p.hp
+}
