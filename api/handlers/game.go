@@ -6,13 +6,16 @@ import (
 	"strconv"
 
 	"github.com/condemo/nes-cards/public/views/core"
+	"github.com/condemo/nes-cards/store"
 	"github.com/condemo/nes-cards/types"
 )
 
-type gameHandler struct{}
+type gameHandler struct {
+	store store.Store
+}
 
-func NewGameHandler() *gameHandler {
-	return &gameHandler{}
+func NewGameHandler(s store.Store) *gameHandler {
+	return &gameHandler{store: s}
 }
 
 func (h gameHandler) RegisterRoutes(r *http.ServeMux) {
@@ -52,20 +55,17 @@ func (h gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) {
 		towerHP = uint8(t)
 	}
 
-	// pHP, err := strconv.ParseUint(r.FormValue("player-hp"), 0, 8)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	//
-	// tHP, err := strconv.ParseUint(r.FormValue("tower-hp"), 0, 8)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
 	player1 := types.NewPlayer(p1, uint8(playerHP))
 	player2 := types.NewPlayer(p2, uint8(playerHP))
 	tower1 := types.NewTower(uint8(towerHP))
 	tower2 := types.NewTower(uint8(towerHP))
+
+	game := types.NewGame()
+	game.LoadPlayers(*player1, *player2)
+
+	if err := h.store.CreateGame(game); err != nil {
+		log.Fatal("error creating a game: ", err)
+	}
 
 	RenderTempl(w, r, core.GameView(player1, player2, tower1, tower2))
 }

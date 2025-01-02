@@ -10,15 +10,18 @@ import (
 	"time"
 
 	"github.com/condemo/nes-cards/api/handlers"
+	"github.com/condemo/nes-cards/store"
 )
 
 type ApiServer struct {
-	addr string
+	addr  string
+	store store.Store
 }
 
-func NewApiServer(addr string) *ApiServer {
+func NewApiServer(addr string, store store.Store) *ApiServer {
 	return &ApiServer{
-		addr: addr,
+		addr:  addr,
+		store: store,
 	}
 }
 
@@ -42,7 +45,7 @@ func (s *ApiServer) Run() {
 	viewsHandler := handlers.NewViewsHandler()
 	viewsHandler.RegisterRoutes(views)
 
-	gameHandler := handlers.NewGameHandler()
+	gameHandler := handlers.NewGameHandler(s.store)
 	gameHandler.RegisterRoutes(game)
 
 	go func() {
