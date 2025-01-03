@@ -13,7 +13,7 @@ import (
 	"strconv"
 )
 
-func PlayersResume(p1, p2 *types.Player) templ.Component {
+func PlayersResume(p1, p2 types.Player) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -58,7 +58,7 @@ func PlayersResume(p1, p2 *types.Player) templ.Component {
 	})
 }
 
-func PlayerInfo(p *types.Player, active bool) templ.Component {
+func PlayerInfo(p types.Player, active bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -101,7 +101,7 @@ func PlayerInfo(p *types.Player, active bool) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/components/player_info.templ`, Line: 24, Col: 47}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/components/player_info.templ`, Line: 20, Col: 49}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -112,9 +112,9 @@ func PlayerInfo(p *types.Player, active bool) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(string(strconv.FormatUint(uint64(p.GetHP()), 10)))
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(string(strconv.FormatUint(uint64(p.HP), 10)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/components/player_info.templ`, Line: 25, Col: 88}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/components/player_info.templ`, Line: 21, Col: 85}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {

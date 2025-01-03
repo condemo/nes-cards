@@ -29,7 +29,6 @@ func (h gameHandler) newGameView(w http.ResponseWriter, r *http.Request) {
 
 func (h gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) {
 	var playerHP uint8
-	var towerHP uint8
 	p1 := r.FormValue("player1")
 	p2 := r.FormValue("player2")
 
@@ -44,28 +43,33 @@ func (h gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) {
 		playerHP = uint8(p)
 	}
 
-	tHP := r.FormValue("tower-hp")
-	if tHP == "" {
-		towerHP = 60
-	} else {
-		t, err := strconv.ParseUint(pHP, 0, 8)
-		if err != nil {
-			log.Fatal(err)
-		}
-		towerHP = uint8(t)
+	// TODO: Implementar
+	// tHP := r.FormValue("tower-hp")
+	// if tHP == "" {
+	// 	towerHP = 60
+	// } else {
+	// 	t, err := strconv.ParseUint(pHP, 0, 8)
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	towerHP = uint8(t)
+	// }
+
+	player1 := types.NewPlayer(p1, playerHP)
+	player2 := types.NewPlayer(p2, playerHP)
+
+	if err := h.store.CreatePlayer(player1); err != nil {
+		log.Fatal("error creating a player: ", err)
+	}
+	if err := h.store.CreatePlayer(player2); err != nil {
+		log.Fatal("error creating a player: ", err)
 	}
 
-	player1 := types.NewPlayer(p1, uint8(playerHP))
-	player2 := types.NewPlayer(p2, uint8(playerHP))
-	tower1 := types.NewTower(uint8(towerHP))
-	tower2 := types.NewTower(uint8(towerHP))
-
-	game := types.NewGame()
-	game.LoadPlayers(*player1, *player2)
+	game := types.NewGame(player1.ID, player2.ID)
 
 	if err := h.store.CreateGame(game); err != nil {
 		log.Fatal("error creating a game: ", err)
 	}
 
-	RenderTempl(w, r, core.GameView(player1, player2, tower1, tower2))
+	RenderTempl(w, r, core.GameView(game))
 }

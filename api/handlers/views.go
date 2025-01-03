@@ -1,16 +1,22 @@
 package handlers
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/condemo/nes-cards/public/views/core"
-	"github.com/condemo/nes-cards/types"
+	"github.com/condemo/nes-cards/store"
 )
 
-type viewsHandler struct{}
+type viewsHandler struct {
+	db store.Store
+}
 
-func NewViewsHandler() *viewsHandler {
-	return &viewsHandler{}
+func NewViewsHandler(s store.Store) *viewsHandler {
+	return &viewsHandler{
+		db: s,
+	}
 }
 
 func (h *viewsHandler) RegisterRoutes(r *http.ServeMux) {
@@ -25,15 +31,22 @@ func (h *viewsHandler) homeView(w http.ResponseWriter, r *http.Request) {
 
 func (h *viewsHandler) gameView(w http.ResponseWriter, r *http.Request) {
 	// TODO:
-	p1 := types.NewPlayer("Demo1", 80)
-	p2 := types.NewPlayer("Demo2", 80)
-	t1 := types.NewTower(60)
-	t2 := types.NewTower(60)
 
-	RenderTempl(w, r, core.GameView(p1, p2, t1, t2))
+	game, err := h.db.GetLastGame()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	RenderTempl(w, r, core.GameView(game))
 }
 
 func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) {
 	// TODO:
+	gl, err := h.db.GetGameList()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%+v\n", gl)
 	RenderTempl(w, r, core.HistoryView())
 }

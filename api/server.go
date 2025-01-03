@@ -42,7 +42,7 @@ func (s *ApiServer) Run() {
 		WriteTimeout: time.Second * 5,
 	}
 
-	viewsHandler := handlers.NewViewsHandler()
+	viewsHandler := handlers.NewViewsHandler(s.store)
 	viewsHandler.RegisterRoutes(views)
 
 	gameHandler := handlers.NewGameHandler(s.store)
