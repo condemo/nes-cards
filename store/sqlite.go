@@ -38,7 +38,15 @@ func NewSqliteStore() *SqliteStore {
 }
 
 func (s *SqliteStore) Init() (*bun.DB, error) {
+	// Game Table
 	_, err := s.db.NewCreateTable().Model((*types.Game)(nil)).
+		IfNotExists().Exec(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	// Player Table
+	_, err = s.db.NewCreateTable().Model((*types.Player)(nil)).
 		IfNotExists().Exec(context.Background())
 	if err != nil {
 		return nil, err
