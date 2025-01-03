@@ -12,6 +12,7 @@ type Game struct {
 	ID            int64     `bun:",pk,autoincrement"`
 	P1            string    `bun:"player1,notnull"`
 	P2            string    `bun:"player2,notnull"`
+	Winner        string    `bun:"winner"`
 	CreatedAt     time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 }
 
