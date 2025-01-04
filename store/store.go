@@ -9,7 +9,9 @@ import (
 
 type Store interface {
 	CreatePlayer(*types.Player) error
-	GetPlayerById(int64) (*types.Player, error)
+	CheckPlayer(string) bool
+	GetPlayerById(*types.Player) error
+	GetPlayerByName(*types.Player) error
 	GetPlayerList() ([]types.Player, error)
 	CreateGame(*types.Game) error
 	GetLastGame() (*types.Game, error)
@@ -30,20 +32,29 @@ func (s *Storage) CreatePlayer(p *types.Player) error {
 	return err
 }
 
-func (s *Storage) GetPlayerById(id int64) (*types.Player, error) {
-	p := new(types.Player)
-	err := s.db.NewSelect().Model(p).
-		Where("id = ?", id).Scan(context.Background())
+func (s *Storage) CheckPlayer(name string) bool {
+	if err := s.db.NewSelect().
+		Model(&types.Player{}).
+		Where("name = ?", name).
+		Scan(context.Background()); err != nil {
+		return false
+	}
 
-	return p, err
+	return true
 }
 
-func (s *Storage) GetPlayerByName(name string) (*types.Player, error) {
-	p := new(types.Player)
+func (s *Storage) GetPlayerById(p *types.Player) error {
 	err := s.db.NewSelect().Model(p).
-		Where("name = ?", name).Scan(context.Background())
+		Where("id = ?", p.ID).Scan(context.Background())
 
-	return p, err
+	return err
+}
+
+func (s *Storage) GetPlayerByName(p *types.Player) error {
+	err := s.db.NewSelect().Model(p).
+		Where("name = ?", p.Name).Scan(context.Background())
+
+	return err
 }
 
 func (s *Storage) GetPlayerList() ([]types.Player, error) {
@@ -55,8 +66,8 @@ func (s *Storage) GetPlayerList() ([]types.Player, error) {
 	return pl, err
 }
 
-// TODO: Ineficiente, dos querys en lugar de una
 func (s *Storage) CreateGame(g *types.Game) error {
+	// TODO: Ineficiente, dos querys en lugar de una
 	_, err := s.db.NewInsert().Model(g).
 		Returning("*").Exec(context.Background())
 	if err != nil {
