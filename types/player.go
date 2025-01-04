@@ -7,7 +7,7 @@ type Player struct {
 
 	ID   int64  `bun:",pk,autoincrement"`
 	Name string `bun:",notnull"`
-	HP   uint8  `bun:",notnull,nullzero"`
+	HP   uint8  `bun:",nullzero"`
 }
 
 // NewPlayer recibe un nombre e instancia un nuevo jugador
