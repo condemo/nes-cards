@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -47,6 +46,5 @@ func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("%+v\n", gl)
-	RenderTempl(w, r, core.HistoryView())
+	RenderTempl(w, r, core.HistoryView(gl))
 }
