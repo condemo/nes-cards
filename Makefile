@@ -18,6 +18,9 @@ clean:
 	@rm -rf ./bin/*
 	@go clean
 
+db-clean:
+	@rm -rf ~/.local/share/nes-cards/data.db
+
 css-build:
 	@tailwindcss -i ./public/static/css/input.css -o ./public/static/css/style.css
 
