@@ -18,12 +18,12 @@ func NewGameHandler(s store.Store) *gameHandler {
 	return &gameHandler{store: s}
 }
 
-func (h gameHandler) RegisterRoutes(r *http.ServeMux) {
+func (h *gameHandler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("GET /new", h.newGameView)
 	r.HandleFunc("POST /new", h.newGamePost)
 }
 
-func (h gameHandler) newGameView(w http.ResponseWriter, r *http.Request) {
+func (h *gameHandler) newGameView(w http.ResponseWriter, r *http.Request) {
 	gl, err := h.store.GetPlayerList()
 	if err != nil {
 		log.Fatal(err)
@@ -32,48 +32,61 @@ func (h gameHandler) newGameView(w http.ResponseWriter, r *http.Request) {
 	RenderTempl(w, r, core.NewGameView(gl))
 }
 
-func (h gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) {
-	var playerHP uint8
+func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) {
+	var game *types.Game
+	var playerHP uint8 = 80
+
 	p1 := r.FormValue("player1")
 	p2 := r.FormValue("player2")
-
 	pHP := r.FormValue("player-hp")
-	if pHP == "" {
-		playerHP = 80
-	} else {
-		p, err := strconv.ParseUint(pHP, 0, 8)
+
+	// Default Player names if Name is empty
+	if p1 == "" {
+		p1 = "Player1"
+	}
+	if p2 == "" {
+		p2 = "Player2"
+	}
+
+	// Check if pHP is empty
+	if pHP != "" {
+		h, err := strconv.ParseUint(pHP, 10, 8)
 		if err != nil {
 			log.Fatal(err)
 		}
-		playerHP = uint8(p)
+		playerHP = uint8(h)
 	}
 
-	// TODO: Implementar
-	// tHP := r.FormValue("tower-hp")
-	// if tHP == "" {
-	// 	towerHP = 60
-	// } else {
-	// 	t, err := strconv.ParseUint(pHP, 0, 8)
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	towerHP = uint8(t)
-	// }
-
+	// Players create
 	player1 := types.NewPlayer(p1, playerHP)
 	player2 := types.NewPlayer(p2, playerHP)
 
-	if err := h.store.CreatePlayer(player1); err != nil {
-		log.Fatal("error creating a player: ", err)
+	// Check if player already exists
+	if ok := h.store.CheckPlayer(player1.Name); !ok {
+		if err := h.store.CreatePlayer(player1); err != nil {
+			log.Fatal("error creating new player1: ", err)
+		}
+	} else {
+		err := h.store.GetPlayerByName(player1)
+		if err != nil {
+			log.Fatal("error loading player1: ", err)
+		}
 	}
-	if err := h.store.CreatePlayer(player2); err != nil {
-		log.Fatal("error creating a player: ", err)
+	if ok := h.store.CheckPlayer(player2.Name); !ok {
+		if err := h.store.CreatePlayer(player2); err != nil {
+			log.Fatal("error creating new player2: ", err)
+		}
+	} else {
+		err := h.store.GetPlayerByName(player2)
+		if err != nil {
+			log.Fatal("error loading player2: ", err)
+		}
 	}
 
-	game := types.NewGame(player1.ID, player2.ID)
-
+	// Create Game
+	game = types.NewGame(player1.ID, player2.ID)
 	if err := h.store.CreateGame(game); err != nil {
-		log.Fatal("error creating a game: ", err)
+		log.Fatal("error creating game: ", err)
 	}
 
 	RenderTempl(w, r, core.GameView(game))
