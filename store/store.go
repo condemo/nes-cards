@@ -9,7 +9,8 @@ import (
 
 type Store interface {
 	CreatePlayer(*types.Player) error
-	GetPlayer(int64) (*types.Player, error)
+	GetPlayerById(int64) (*types.Player, error)
+	GetPlayerList() ([]types.Player, error)
 	CreateGame(*types.Game) error
 	GetLastGame() (*types.Game, error)
 	GetGameList() ([]types.Game, error)
@@ -29,12 +30,29 @@ func (s *Storage) CreatePlayer(p *types.Player) error {
 	return err
 }
 
-func (s *Storage) GetPlayer(id int64) (*types.Player, error) {
+func (s *Storage) GetPlayerById(id int64) (*types.Player, error) {
 	p := new(types.Player)
 	err := s.db.NewSelect().Model(p).
-		Where("id = ?", id).Limit(1).Scan(context.Background())
+		Where("id = ?", id).Scan(context.Background())
 
 	return p, err
+}
+
+func (s *Storage) GetPlayerByName(name string) (*types.Player, error) {
+	p := new(types.Player)
+	err := s.db.NewSelect().Model(p).
+		Where("name = ?", name).Scan(context.Background())
+
+	return p, err
+}
+
+func (s *Storage) GetPlayerList() ([]types.Player, error) {
+	var pl []types.Player
+	err := s.db.NewSelect().Model(&pl).
+		Order("id ASC").Limit(20).
+		Scan(context.Background())
+
+	return pl, err
 }
 
 // TODO: Ineficiente, dos querys en lugar de una
