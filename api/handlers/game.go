@@ -24,7 +24,12 @@ func (h gameHandler) RegisterRoutes(r *http.ServeMux) {
 }
 
 func (h gameHandler) newGameView(w http.ResponseWriter, r *http.Request) {
-	RenderTempl(w, r, core.NewGameView())
+	gl, err := h.store.GetPlayerList()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	RenderTempl(w, r, core.NewGameView(gl))
 }
 
 func (h gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) {
