@@ -6,6 +6,7 @@ import (
 
 	"github.com/condemo/nes-cards/public/views/core"
 	"github.com/condemo/nes-cards/store"
+	"github.com/condemo/nes-cards/types"
 )
 
 type viewsHandler struct {
@@ -30,10 +31,12 @@ func (h *viewsHandler) homeView(w http.ResponseWriter, r *http.Request) {
 
 func (h *viewsHandler) gameView(w http.ResponseWriter, r *http.Request) {
 	// TODO:
+	var game *types.Game
 
 	game, err := h.db.GetLastGame()
 	if err != nil {
-		log.Fatal(err)
+		RenderTempl(w, r, core.EmptyView())
+		return
 	}
 
 	RenderTempl(w, r, core.GameView(game))
@@ -41,9 +44,10 @@ func (h *viewsHandler) gameView(w http.ResponseWriter, r *http.Request) {
 
 func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) {
 	// TODO:
+	var gl []types.Game
 	gl, err := h.db.GetGameList()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("historyView db error -> ", err)
 	}
 
 	RenderTempl(w, r, core.HistoryView(gl))

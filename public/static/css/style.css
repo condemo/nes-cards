@@ -1966,6 +1966,10 @@ html {
   width: 100%;
 }
 
+.w-32 {
+  width: 8rem;
+}
+
 .max-w-xs {
   max-width: 20rem;
 }
@@ -2070,6 +2074,11 @@ html {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .font-bold {
