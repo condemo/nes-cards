@@ -12,3 +12,10 @@ templ GameView(g *types.Game) {
 		<!-- @components.TowersResume(*t1, *t2) -->
 	</div>
 }
+
+templ EmptyView() {
+	<div id="empty-view">
+		<img src="/static/img/empty_meme.jpeg" class="w-56 mx-auto"/>
+		<h1 class="text-3xl font-bold my-2">There is no game yet</h1>
+	</div>
+}
