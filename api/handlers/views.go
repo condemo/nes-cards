@@ -50,5 +50,10 @@ func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("historyView db error -> ", err)
 	}
 
+	if len(gl) == 0 {
+		RenderTempl(w, r, core.HistoryEmpty())
+		return
+	}
+
 	RenderTempl(w, r, core.HistoryView(gl))
 }
