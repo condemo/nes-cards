@@ -38,8 +38,9 @@ func (g *Game) BeforeAppendModel(ctx context.Context, query bun.Query) error {
 
 func NewGame(pid1, pid2 int64) *Game {
 	g := &Game{
-		P1: pid1,
-		P2: pid2,
+		P1:     pid1,
+		P2:     pid2,
+		Winner: "none",
 	}
 
 	return g
