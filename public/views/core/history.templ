@@ -1,11 +1,16 @@
 package core
 
-import "github.com/condemo/nes-cards/types"
+import (
+	"github.com/condemo/nes-cards/public/views/components"
+	"github.com/condemo/nes-cards/types"
+)
 
 templ HistoryView(gl []types.Game) {
-	// TODO: crear tarjetas con los datos de `gl` para mostrar el historial
-	<div id="history-view" class="flex flex-col">
+	<div id="history-view" class="flex flex-col space-y-3">
 		<h1 class="text-4xl">Records</h1>
+		for _, g := range gl {
+			@components.RecordCards(g)
+		}
 	</div>
 }
 
