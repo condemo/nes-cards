@@ -43,7 +43,7 @@ func Home() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"main-home\" class=\"p-4\"><div id=\"main-view\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"main-home\" class=\"p-4 pb-20\"><div id=\"main-view\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
