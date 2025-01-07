@@ -1,40 +1,40 @@
 package components
 
 import (
-	"fmt"
-	"github.com/condemo/nes-cards/types"
+"fmt"
+"github.com/condemo/nes-cards/types"
 )
 
 templ RecordCards(g types.Game) {
-	<div id="record-card">
-		<div class="card bg-base-100 shadow-xl">
-			<div class="card-body">
-				<h2 class="card-title">{ g.CreatedAt.Format("01/02/2006") }</h2>
-				<div class="flex flex-row justify-around">
-					@SimplePlayerStat(g.Player1, g.Winner)
-					@SimplePlayerStat(g.Player2, g.Winner)
-				</div>
-			</div>
-		</div>
-	</div>
+<div id={ fmt.Sprintf("record-card-%d", g.ID) }>
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">{ g.CreatedAt.Format("01/02/2006") }</h2>
+      <div class="flex flex-row justify-around">
+        @SimplePlayerStat(g.Player1, g.Winner)
+        @SimplePlayerStat(g.Player2, g.Winner)
+      </div>
+    </div>
+  </div>
+</div>
 }
 
 templ SimplePlayerStat(p types.Player, winner string) {
-	<div id={ fmt.Sprintf("simple-player-%d", p.ID) }>
-		if p.Name == winner && p.Name != "none" {
-			<div class="card bg-success shadow-xl w-40">
-				<div class="card-body">
-					<h2 class="card-title text-xl font-bold">{ p.Name }</h2>
-					<p>❤️ 80 ⛰️ 60 ⛰️ 60</p>
-				</div>
-			</div>
-		} else {
-			<div class="card bg-base-100 shadow-xl w-40">
-				<div class="card-body">
-					<h2 class="card-title">{ p.Name }</h2>
-					<p>❤️ 80 ⛰️ 60 ⛰️ 60</p>
-				</div>
-			</div>
-		}
-	</div>
+<div id={ fmt.Sprintf("simple-player-%d", p.ID) }>
+  if p.Name == winner && p.Name != "none" {
+  <div class="card bg-success shadow-xl w-32">
+    <div class="card-body">
+      <h2 class="card-title text-xl font-bold">{ p.Name }</h2>
+      <p class="font-bold">❤️ 80 ⛰️ 60 ⛰️ 60</p>
+    </div>
+  </div>
+  } else {
+  <div class="card bg-base-100 shadow-xl w-32">
+    <div class="card-body">
+      <h2 class="card-title">{ p.Name }</h2>
+      <p class="font-bold">❤️ 80 ⛰️ 60 ⛰️ 60</p>
+    </div>
+  </div>
+  }
+</div>
 }
