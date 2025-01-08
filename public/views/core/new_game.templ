@@ -5,7 +5,8 @@ import "github.com/condemo/nes-cards/types"
 templ NewGameView(pl []types.Player) {
 <div id="new-game">
   <h1 class="text-4xl">New Game</h1>
-  <button class="btn btn-square btn-outline fixed top-2 right-2" hx-get="/" hx-target="#main-view" hx-push-url="true">
+  <button class="btn btn-square btn-outline fixed top-2 right-2" hx-get={ string(templ.URL("/home")) }
+    hx-target="#main-view" hx-push-url="true">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
     </svg>
@@ -18,25 +19,25 @@ templ GameForm(pl []types.Player) {
 <div id="game-form" class="flex flex-col my-5">
   // TODO: Buscar la manera de pushear la url de `/current-game` después de crear
   // un juego nuevo la idea sería guardar la partida
-  // en la db -> redirigir a /current-game -> GET req -> db/last-game -> currrentGame
-  <form class="flex flex-col space-y-3" hx-post="/game/new" hx-target="#main-view">
-    <div class="flex flex-row space-x-1">
-      <select id="player1" name="player1" class="select select-bordered w-full max-w-xs">
-        <option disabled selected>Player1</option>
-        for _, p := range pl {
-        <option value={ p.Name }>{ p.Name }</option>
-        }
-      </select>
-      <button type="button" class="btn btn-primary">New</button>
-    </div>
-    <div class="flex flex-row space-x-1">
-      <select id="player2" name="player2" class="select select-bordered w-full max-w-xs">
-        <option disabled selected>Player2</option>
-        for _, p := range pl {
-        <option value={ p.Name }>{ p.Name }</option>
-        }
-      </select>
-      <button type="button" class="btn btn-primary">New</button>
+  // en la db -> redirigir a /current-game -> GET req -> db/last-game -> currentGame
+  <form class="flex flex-col space-y-3" hx-post={ string(templ.URL("/game/new")) } hx-target="#main-view">
+    <div class="flex flex-row space-x-2 justify-center">
+      <div class="flex flex-row space-x-1">
+        <select id="player1" name="player1" class="select select-bordered w-full">
+          <option disabled selected>Player1</option>
+          for _, p := range pl {
+          <option value={ p.Name }>{ p.Name }</option>
+          }
+        </select>
+      </div>
+      <div class="flex flex-row space-x-1">
+        <select id="player2" name="player2" class="select select-bordered w-full max-w-xs">
+          <option disabled selected>Player2</option>
+          for _, p := range pl {
+          <option value={ p.Name }>{ p.Name }</option>
+          }
+        </select>
+      </div>
     </div>
     <label class="input input-bordered flex items-center gap-2">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -58,5 +59,19 @@ templ GameForm(pl []types.Player) {
     </label>
     <button class="btn btn-primary" type="submit">Create</button>
   </form>
+  <div id="new-player-modal"></div>
+  @NewPlayerBtn()
 </div>
+}
+
+templ NewPlayerBtn() {
+<button class="btn btn-primary fixed right-2 bottom-20" type="button" hx-get={ string(templ.URL("/player/modal")) }
+  hx-target="#new-player-modal">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+    class="size-6">
+    <path stroke-linecap="round" stroke-linejoin="round"
+      d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z">
+    </path>
+  </svg>
+</button>
 }
