@@ -29,10 +29,12 @@ func (s *ApiServer) Run() {
 	router := http.NewServeMux()
 	views := http.NewServeMux()
 	game := http.NewServeMux()
+	player := http.NewServeMux()
 	fs := http.FileServer(http.Dir("public/static"))
 
 	router.Handle("/", views)
 	router.Handle("/game/", http.StripPrefix("/game", game))
+	router.Handle("/player/", http.StripPrefix("/player", player))
 	router.Handle("/static/", http.StripPrefix("/static", fs))
 
 	server := http.Server{
@@ -44,9 +46,10 @@ func (s *ApiServer) Run() {
 
 	viewsHandler := handlers.NewViewsHandler(s.store)
 	viewsHandler.RegisterRoutes(views)
-
 	gameHandler := handlers.NewGameHandler(s.store)
 	gameHandler.RegisterRoutes(game)
+	playerHandler := handlers.NewPlayerHandler(s.store)
+	playerHandler.RegisterRoutes(player)
 
 	go func() {
 		log.Fatal(server.ListenAndServe())
