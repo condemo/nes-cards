@@ -36,13 +36,13 @@ func Head(title string) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/layout/partials.templ`, Line: 9, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/layout/partials.templ`, Line: 10, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " | NesCards</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/style.css\"><link rel=\"manifest\" href=\"/static/manifest.json\"><script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/htmx-ws.js\"></script></head><body hx-boost=\"true\"><div id=\"main-container\" class=\"flex flex-col mx-auto text-center h-screen px-1\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " | NesCards</title><link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/style.css\"><link rel=\"manifest\" href=\"/static/manifest.json\"><script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/htmx-ws.js\"></script><script src=\"/static/js/response-targets.js\"></script></head><body hx-boost=\"true\" hx-ext=\"response-targets\"><div id=\"main-container\" class=\"flex flex-col mx-auto text-center h-screen px-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
