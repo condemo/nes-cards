@@ -21,12 +21,17 @@ func NewViewsHandler(s store.Store) *viewsHandler {
 
 func (h *viewsHandler) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("GET /", h.homeView)
+	r.HandleFunc("GET /home", h.frontView)
 	r.HandleFunc("GET /current-game", h.gameView)
 	r.HandleFunc("GET /history", h.historyView)
 }
 
 func (h *viewsHandler) homeView(w http.ResponseWriter, r *http.Request) {
 	RenderTempl(w, r, core.Home())
+}
+
+func (h *viewsHandler) frontView(w http.ResponseWriter, r *http.Request) {
+	RenderTempl(w, r, core.FrontView())
 }
 
 func (h *viewsHandler) gameView(w http.ResponseWriter, r *http.Request) {

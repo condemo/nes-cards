@@ -3,11 +3,20 @@ package core
 import "github.com/condemo/nes-cards/public/views/layout"
 
 templ Home() {
-	@layout.Base("Home") {
-		<div id="main-home" class="p-4 pb-20">
-			<div id="main-view">
-				@WelcomeView()
-			</div>
-		</div>
-	}
+@layout.Base("Home") {
+@FrontView()
+}
+}
+
+templ FrontView() {
+<div id="front-view" class="flex flex-col space-y-5">
+  <h1 class="text-xs"><span class="text-4xl">NES CARDS</span> (provisional)</h1>
+  <div>
+    <img src="/static/img/welcome_img.jpeg" alt="nes tirao" class="w-52 mx-auto" />
+    <button class="btn btn-active btn-primary my-3 text-3xl rounded-2xl" hx-get="/game/new" hx-target="#main-view">
+      New
+      Game
+    </button>
+  </div>
+</div>
 }
