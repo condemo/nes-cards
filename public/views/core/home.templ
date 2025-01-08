@@ -1,10 +1,14 @@
 package core
 
-import "github.com/condemo/nes-cards/public/views/layout"
+import (
+"github.com/condemo/nes-cards/public/views/components"
+"github.com/condemo/nes-cards/public/views/layout"
+)
 
 templ Home() {
 @layout.Base("Home") {
 @FrontView()
+@components.NavBottom("home")
 }
 }
 

@@ -1,9 +1,9 @@
 package components
 
-templ NavBottom() {
+templ NavBottom(active string) {
 <div id="nav-bottom">
   <div class="btm-nav">
-    <button class="active" hx-get="/home" hx-target="#main-view">
+    <button if active=="home" { class="active" } hx-get="/" hx-target="#main-view">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -11,7 +11,7 @@ templ NavBottom() {
         </path>
       </svg>
     </button>
-    <button hx-get="/current-game" hx-target="#main-view">
+    <button if active=="game" { class="active" } hx-get="/current-game" hx-target="#main-view">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -22,7 +22,7 @@ templ NavBottom() {
         </path>
       </svg>
     </button>
-    <button hx-get="/history" hx-target="#main-view">
+    <button if active=="record" { class="active" } hx-get="/history" hx-target="#main-view">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round"

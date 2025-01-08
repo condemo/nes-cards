@@ -1,12 +1,9 @@
 package layout
 
-import "github.com/condemo/nes-cards/public/views/components"
-
 templ Base(title string) {
-	@Head(title) {
-		<div id="main-view" class="p-4 pb-20">
-			{ children... }
-		</div>
-		@components.NavBottom()
-	}
+@Head(title) {
+<div id="main-view" class="p-4 pb-20">
+  { children... }
+</div>
+}
 }

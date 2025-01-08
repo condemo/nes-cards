@@ -8,7 +8,10 @@ package core
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/condemo/nes-cards/public/views/layout"
+import (
+	"github.com/condemo/nes-cards/public/views/components"
+	"github.com/condemo/nes-cards/public/views/layout"
+)
 
 func Home() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -47,6 +50,14 @@ func Home() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, " ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.NavBottom("home").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 			return nil
 		})
 		templ_7745c5c3_Err = layout.Base("Home").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
@@ -78,7 +89,7 @@ func FrontView() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"front-view\" class=\"flex flex-col space-y-5\"><h1 class=\"text-xs\"><span class=\"text-4xl\">NES CARDS</span> (provisional)</h1><div><img src=\"/static/img/welcome_img.jpeg\" alt=\"nes tirao\" class=\"w-52 mx-auto\"> <button class=\"btn btn-active btn-primary my-3 text-3xl rounded-2xl\" hx-get=\"/game/new\" hx-target=\"#main-view\">New Game</button></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div id=\"front-view\" class=\"flex flex-col space-y-5\"><h1 class=\"text-xs\"><span class=\"text-4xl\">NES CARDS</span> (provisional)</h1><div><img src=\"/static/img/welcome_img.jpeg\" alt=\"nes tirao\" class=\"w-52 mx-auto\"> <button class=\"btn btn-active btn-primary my-3 text-3xl rounded-2xl\" hx-get=\"/game/new\" hx-target=\"#main-view\">New Game</button></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

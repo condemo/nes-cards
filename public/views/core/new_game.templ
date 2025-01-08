@@ -1,6 +1,9 @@
 package core
 
-import "github.com/condemo/nes-cards/types"
+import (
+"github.com/condemo/nes-cards/public/views/components"
+"github.com/condemo/nes-cards/types"
+)
 
 templ NewGameView(pl []types.Player) {
 <div id="new-game">
@@ -12,6 +15,7 @@ templ NewGameView(pl []types.Player) {
     </svg>
   </button>
   @GameForm(pl)
+  @components.NavBottom("game")
 </div>
 }
 

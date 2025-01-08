@@ -1242,10 +1242,6 @@ html {
   .btn-primary {
     --btn-color: var(--fallback-p);
   }
-
-  .btn-success {
-    --btn-color: var(--fallback-su);
-  }
 }
 
 @supports (color: color-mix(in oklab, black, black)) {
@@ -1314,16 +1310,6 @@ html {
   .btn-primary {
     --btn-color: var(--p);
   }
-
-  .btn-success {
-    --btn-color: var(--su);
-  }
-}
-
-.btn-success {
-  --tw-text-opacity: 1;
-  color: var(--fallback-suc,oklch(var(--suc)/var(--tw-text-opacity)));
-  outline-color: var(--fallback-su,oklch(var(--su)/1));
 }
 
 .btn.glass {
@@ -2139,10 +2125,6 @@ html {
   width: 100%;
 }
 
-.w-1\/2 {
-  width: 50%;
-}
-
 .max-w-xs {
   max-width: 20rem;
 }
@@ -2165,10 +2147,6 @@ html {
 
 .justify-end {
   justify-content: flex-end;
-}
-
-.justify-center {
-  justify-content: center;
 }
 
 .justify-around {
@@ -2229,11 +2207,6 @@ html {
 .bg-success {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-su,oklch(var(--su)/var(--tw-bg-opacity)));
-}
-
-.bg-red-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
 }
 
 .p-4 {

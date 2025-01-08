@@ -1,23 +1,24 @@
 package core
 
 import (
-	"github.com/condemo/nes-cards/public/views/components"
-	"github.com/condemo/nes-cards/types"
+"github.com/condemo/nes-cards/public/views/components"
+"github.com/condemo/nes-cards/types"
 )
 
 templ HistoryView(gl []types.Game) {
-	<div id="history-view" class="flex flex-col space-y-3">
-		<h1 class="text-4xl">Records</h1>
-		for _, g := range gl {
-			@components.RecordCards(g)
-		}
-	</div>
+<div id="history-view" class="flex flex-col space-y-3">
+  <h1 class="text-4xl">Records</h1>
+  for _, g := range gl {
+  @components.RecordCards(g)
+  }
+  @components.NavBottom("record")
+</div>
 }
 
 templ HistoryEmpty() {
-	<div id="empty-history">
-		<h1 class="text-4xl">Records</h1>
-		<img src="/static/img/why_is_empty.png" class="w-56 mx-auto"/>
-		<h1 class="text-3xl font-bold my-2">Play some games moron</h1>
-	</div>
+<div id="empty-history">
+  <h1 class="text-4xl">Records</h1>
+  <img src="/static/img/why_is_empty.png" class="w-56 mx-auto" />
+  <h1 class="text-3xl font-bold my-2">Play some games moron</h1>
+</div>
 }
