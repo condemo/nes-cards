@@ -42,7 +42,7 @@ func NewPlayerModal() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" hx-target=\"#main-view\" hx-target-error=\"#new-user-errors\"><h3 class=\"text-xl font-bold my-2\">Create Player</h3><div id=\"new-user-errors\"></div><input type=\"text\" placeholder=\"Player Name\" name=\"new-name\" class=\"input input-bordered w-full max-w-xs\"> <button type=\"submit\" class=\"btn btn-success my-2 font-bold text-lg\">Create</button></form><div class=\"modal-action\"><button class=\"btn fixed top-1 right-1\" hx-on:click=\"document.getElementById(&#34;new_player_modal&#34;).remove()\">X</button></div></div></dialog>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" hx-target=\"#main-view\" hx-target-error=\"#new-user-errors\"><h3 class=\"text-xl font-bold my-2\">Create Player</h3><div id=\"new-user-errors\"></div><input type=\"text\" placeholder=\"Player Name\" name=\"new-name\" class=\"input input-bordered w-full max-w-xs\"> <button type=\"submit\" class=\"btn btn-primary my-2 font-bold text-lg\">Create</button></form><div class=\"modal-action\"><button class=\"btn fixed top-1 right-1\" hx-on:click=\"document.getElementById(&#34;new_player_modal&#34;).remove()\">X</button></div></div></dialog>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

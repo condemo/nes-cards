@@ -21,8 +21,8 @@ templ GameForm(pl []types.Player) {
   // un juego nuevo la idea sería guardar la partida
   // en la db -> redirigir a /current-game -> GET req -> db/last-game -> currentGame
   <form class="flex flex-col space-y-3" hx-post={ string(templ.URL("/game/new")) } hx-target="#main-view">
-    <div class="flex flex-row space-x-2 justify-center">
-      <div class="flex flex-row space-x-1">
+    <div class="flex flex-row space-x-2">
+      <div class="flex flex-row space-x-1 w-full">
         <select id="player1" name="player1" class="select select-bordered w-full">
           <option disabled selected>Player1</option>
           for _, p := range pl {
@@ -30,8 +30,8 @@ templ GameForm(pl []types.Player) {
           }
         </select>
       </div>
-      <div class="flex flex-row space-x-1">
-        <select id="player2" name="player2" class="select select-bordered w-full max-w-xs">
+      <div class="flex flex-row space-x-1 w-full">
+        <select id="player2" name="player2" class="select select-bordered w-full">
           <option disabled selected>Player2</option>
           for _, p := range pl {
           <option value={ p.Name }>{ p.Name }</option>
@@ -57,7 +57,7 @@ templ GameForm(pl []types.Player) {
       </svg>
       <input type="text" class="grow" name="tower-hp" placeholder="Towers HP (60)" />
     </label>
-    <button class="btn btn-primary" type="submit">Create</button>
+    <button class="btn btn-primary text-2xl" type="submit">Play!</button>
   </form>
   <div id="new-player-modal"></div>
   @NewPlayerBtn()
