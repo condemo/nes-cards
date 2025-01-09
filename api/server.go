@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/condemo/nes-cards/api/handlers"
+	"github.com/condemo/nes-cards/api/middlewares"
 	"github.com/condemo/nes-cards/store"
 )
 
@@ -32,9 +33,15 @@ func (s *ApiServer) Run() {
 	player := http.NewServeMux()
 	fs := http.FileServer(http.Dir("public/static"))
 
-	router.Handle("/", views)
-	router.Handle("/game/", http.StripPrefix("/game", game))
-	router.Handle("/player/", http.StripPrefix("/player", player))
+	// Middlewares
+	basicMDstack := middlewares.MiddlewareStack(
+		middlewares.Recover,
+		middlewares.Logger,
+	)
+
+	router.Handle("/", basicMDstack(views))
+	router.Handle("/game/", http.StripPrefix("/game", basicMDstack(game)))
+	router.Handle("/player/", http.StripPrefix("/player", basicMDstack(player)))
 	router.Handle("/static/", http.StripPrefix("/static", fs))
 
 	server := http.Server{
