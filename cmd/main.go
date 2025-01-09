@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	addr := flag.String("p", ":4000", "addr")
+	addr := flag.String("p", ":3000", "addr")
 	flag.Parse()
 
 	sqliteStorage := store.NewSqliteStore()
