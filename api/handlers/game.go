@@ -19,20 +19,20 @@ func NewGameHandler(s store.Store) *gameHandler {
 }
 
 func (h *gameHandler) RegisterRoutes(r *http.ServeMux) {
-	r.HandleFunc("GET /new", h.newGameView)
-	r.HandleFunc("POST /new", h.newGamePost)
+	r.HandleFunc("GET /new", makeHandler(h.newGameView))
+	r.HandleFunc("POST /new", makeHandler(h.newGamePost))
 }
 
-func (h *gameHandler) newGameView(w http.ResponseWriter, r *http.Request) {
+func (h *gameHandler) newGameView(w http.ResponseWriter, r *http.Request) error {
 	gl, err := h.store.GetPlayerList()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	RenderTempl(w, r, core.NewGameView(gl))
+	return RenderTempl(w, r, core.NewGameView(gl))
 }
 
-func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) {
+func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error {
 	var game *types.Game
 	var playerHP uint8 = 80
 
@@ -89,5 +89,5 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("error creating game: ", err)
 	}
 
-	RenderTempl(w, r, core.GameView(game))
+	return RenderTempl(w, r, core.GameView(game))
 }

@@ -20,34 +20,34 @@ func NewViewsHandler(s store.Store) *viewsHandler {
 }
 
 func (h *viewsHandler) RegisterRoutes(r *http.ServeMux) {
-	r.HandleFunc("GET /", h.homeView)
-	r.HandleFunc("GET /home", h.frontView)
-	r.HandleFunc("GET /current-game", h.gameView)
-	r.HandleFunc("GET /history", h.historyView)
+	r.HandleFunc("GET /", makeHandler(h.homeView))
+	r.HandleFunc("GET /home", makeHandler(h.frontView))
+	r.HandleFunc("GET /current-game", makeHandler(h.gameView))
+	r.HandleFunc("GET /history", makeHandler(h.historyView))
+	r.HandleFunc("GET /error", makeHandler(h.getErrorView))
 }
 
-func (h *viewsHandler) homeView(w http.ResponseWriter, r *http.Request) {
-	RenderTempl(w, r, core.Home())
+func (h *viewsHandler) homeView(w http.ResponseWriter, r *http.Request) error {
+	return RenderTempl(w, r, core.Home())
 }
 
-func (h *viewsHandler) frontView(w http.ResponseWriter, r *http.Request) {
-	RenderTempl(w, r, core.FrontView())
+func (h *viewsHandler) frontView(w http.ResponseWriter, r *http.Request) error {
+	return RenderTempl(w, r, core.FrontView())
 }
 
-func (h *viewsHandler) gameView(w http.ResponseWriter, r *http.Request) {
+func (h *viewsHandler) gameView(w http.ResponseWriter, r *http.Request) error {
 	// TODO:
 	var game *types.Game
 
 	game, err := h.db.GetLastGame()
 	if err != nil {
-		RenderTempl(w, r, core.EmptyView())
-		return
+		return RenderTempl(w, r, core.EmptyView())
 	}
 
-	RenderTempl(w, r, core.GameView(game))
+	return RenderTempl(w, r, core.GameView(game))
 }
 
-func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) {
+func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) error {
 	// TODO:
 	var gl []types.Game
 	gl, err := h.db.GetGameList()
@@ -56,9 +56,12 @@ func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(gl) == 0 {
-		RenderTempl(w, r, core.HistoryEmpty())
-		return
+		return RenderTempl(w, r, core.HistoryEmpty())
 	}
 
-	RenderTempl(w, r, core.HistoryView(gl))
+	return RenderTempl(w, r, core.HistoryView(gl))
+}
+
+func (h *viewsHandler) getErrorView(w http.ResponseWriter, r *http.Request) error {
+	return RenderTempl(w, r, core.InternalErrorView())
 }
