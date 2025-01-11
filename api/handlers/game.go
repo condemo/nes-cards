@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	apiErrors "github.com/condemo/nes-cards/api/api_errors"
 	"github.com/condemo/nes-cards/public/views/core"
 	"github.com/condemo/nes-cards/store"
 	"github.com/condemo/nes-cards/types"
@@ -51,7 +52,8 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	if pHP != "" {
 		h, err := strconv.ParseUint(pHP, 10, 8)
 		if err != nil {
-			return err
+			return apiErrors.NewApiError(
+				err, "hp must be an integer", http.StatusBadRequest)
 		}
 		playerHP = uint8(h)
 	}
@@ -60,26 +62,13 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	player1 := types.NewPlayer(p1, playerHP)
 	player2 := types.NewPlayer(p2, playerHP)
 
-	// Check if player already exists
-	if ok := h.store.CheckPlayer(player1.Name); !ok {
-		if err := h.store.CreatePlayer(player1); err != nil {
-			return err
-		}
-	} else {
-		err := h.store.GetPlayerByName(player1)
-		if err != nil {
-			return err
-		}
+	err := h.store.GetPlayerByName(player1)
+	if err != nil {
+		return err
 	}
-	if ok := h.store.CheckPlayer(player2.Name); !ok {
-		if err := h.store.CreatePlayer(player2); err != nil {
-			return err
-		}
-	} else {
-		err := h.store.GetPlayerByName(player2)
-		if err != nil {
-			return err
-		}
+	err = h.store.GetPlayerByName(player2)
+	if err != nil {
+		return err
 	}
 
 	// Create Game
