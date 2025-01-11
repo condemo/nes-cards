@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
+	apiErrors "github.com/condemo/nes-cards/api/api_errors"
 	"github.com/condemo/nes-cards/public/views/components"
 	"github.com/condemo/nes-cards/public/views/core"
 	"github.com/condemo/nes-cards/store"
@@ -31,25 +33,29 @@ func (h *playerHandler) createPlayer(w http.ResponseWriter, r *http.Request) err
 	p := r.FormValue("new-name")
 
 	if p == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		return RenderTempl(w, r, components.NewPlayerError("Player Name is Empty"))
+		return apiErrors.NewApiError(
+			errors.New("player name is empty"),
+			"Player Name is Empty",
+			http.StatusBadRequest,
+		)
 	}
 
 	if ok := h.store.CheckPlayer(p); ok {
-		w.WriteHeader(http.StatusConflict)
-		return RenderTempl(w, r, components.NewPlayerError(fmt.Sprintf("%s already exists", p)))
+		return apiErrors.NewApiError(
+			errors.New("player already exists"),
+			fmt.Sprintf("%s already exists", p),
+			http.StatusConflict,
+		)
 	}
 
 	player := types.NewPlayer(p, 80)
 	if err := h.store.CreatePlayer(player); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return RenderTempl(w, r, components.NewPlayerError("Something went wrong call Gus"))
+		return err
 	}
 
 	pl, err := h.store.GetPlayerList()
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return RenderTempl(w, r, components.NewPlayerError("Something went wrong call Gus"))
+		return err
 	}
 
 	w.WriteHeader(http.StatusCreated)

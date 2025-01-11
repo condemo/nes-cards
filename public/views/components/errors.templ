@@ -1,0 +1,10 @@
+package components
+
+import apiErrors "github.com/condemo/nes-cards/api/api_errors"
+
+templ ApiError(e apiErrors.ApiError) {
+	// TODO: Make it better
+	<div>
+		<p class="text-error">{ e.Msg }</p>
+	</div>
+}

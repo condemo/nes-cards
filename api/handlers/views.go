@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/condemo/nes-cards/public/views/core"
@@ -52,7 +51,7 @@ func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) error
 	var gl []types.Game
 	gl, err := h.db.GetGameList()
 	if err != nil {
-		log.Fatal("historyView db error -> ", err)
+		return err
 	}
 
 	if len(gl) == 0 {

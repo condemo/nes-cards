@@ -8,7 +8,9 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func NewPlayerModal() templ.Component {
+import apiErrors "github.com/condemo/nes-cards/api/api_errors"
+
+func ApiError(e apiErrors.ApiError) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,20 +31,20 @@ func NewPlayerModal() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<dialog id=\"new_player_modal\" class=\"modal modal-open\"><div class=\"modal-box\"><form hx-post=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div><p class=\"text-error\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(string(templ.URL("/player/")))
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(e.Msg)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/components/new_player.templ`, Line: 6, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/components/errors.templ`, Line: 8, Col: 31}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" hx-target=\"#main-view\" hx-target-error=\"#new-user-errors\"><h3 class=\"text-xl font-bold my-2\">Create Player</h3><div id=\"new-user-errors\"></div><input type=\"text\" placeholder=\"Player Name\" name=\"new-name\" class=\"input input-bordered w-full max-w-xs\"> <button type=\"submit\" class=\"btn btn-primary my-2 font-bold text-lg\">Create</button></form><div class=\"modal-action\"><button class=\"btn fixed top-1 right-1\" hx-on:click=\"document.getElementById(&#34;new_player_modal&#34;).remove()\">X</button></div></div></dialog>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -26,7 +25,7 @@ func (h *gameHandler) RegisterRoutes(r *http.ServeMux) {
 func (h *gameHandler) newGameView(w http.ResponseWriter, r *http.Request) error {
 	gl, err := h.store.GetPlayerList()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	return RenderTempl(w, r, core.NewGameView(gl))
@@ -52,7 +51,7 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	if pHP != "" {
 		h, err := strconv.ParseUint(pHP, 10, 8)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 		playerHP = uint8(h)
 	}
@@ -64,29 +63,29 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	// Check if player already exists
 	if ok := h.store.CheckPlayer(player1.Name); !ok {
 		if err := h.store.CreatePlayer(player1); err != nil {
-			log.Fatal("error creating new player1: ", err)
+			return err
 		}
 	} else {
 		err := h.store.GetPlayerByName(player1)
 		if err != nil {
-			log.Fatal("error loading player1: ", err)
+			return err
 		}
 	}
 	if ok := h.store.CheckPlayer(player2.Name); !ok {
 		if err := h.store.CreatePlayer(player2); err != nil {
-			log.Fatal("error creating new player2: ", err)
+			return err
 		}
 	} else {
 		err := h.store.GetPlayerByName(player2)
 		if err != nil {
-			log.Fatal("error loading player2: ", err)
+			return err
 		}
 	}
 
 	// Create Game
 	game = types.NewGame(player1.ID, player2.ID)
 	if err := h.store.CreateGame(game); err != nil {
-		log.Fatal("error creating game: ", err)
+		return err
 	}
 
 	return RenderTempl(w, r, core.GameView(game))
