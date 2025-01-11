@@ -1,22 +1,22 @@
 package core
 
 import (
-"github.com/condemo/nes-cards/public/views/components"
-"github.com/condemo/nes-cards/types"
+	"github.com/condemo/nes-cards/public/views/components"
+	"github.com/condemo/nes-cards/types"
 )
 
 templ GameView(g *types.Game) {
-<div id="game-view">
-  @components.PlayersResume(g.Player1, g.Player2)
-  <!-- @components.TowersResume(*t1, *t2) -->
-  <!-- @components.TowersResume(*t1, *t2) -->
-  @components.NavBottom("game")
-</div>
+	<div id="game-view">
+		@components.PlayersResume(g.Player1, g.Player2)
+		<!-- @components.TowersResume(*t1, *t2) -->
+		<!-- @components.TowersResume(*t1, *t2) -->
+		@components.NavBottom("game")
+	</div>
 }
 
 templ EmptyView() {
-<div id="empty-view">
-  <img src="/static/img/empty_meme.jpeg" class="w-56 mx-auto" />
-  <h1 class="text-3xl font-bold my-2">There is no game yet</h1>
-</div>
+	<div id="empty-view">
+		<img src="/static/img/empty_meme.jpeg" class="w-56 mx-auto"/>
+		<h1 class="text-3xl font-bold my-2">There is no game yet</h1>
+	</div>
 }

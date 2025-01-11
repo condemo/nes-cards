@@ -5,7 +5,7 @@ templ NavBottom(active string) {
 		<div class="btm-nav">
 			<button if active=="home" {
 	class="active"
-} hx-get="/home" hx-target="#main-view">
+} hx-get={ string(templ.URL("/home")) } hx-target="#main-view">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -23,7 +23,7 @@ templ NavBottom(active string) {
 			</button>
 			<button if active=="game" {
 	class="active"
-} hx-get="/current-game" hx-target="#main-view">
+} hx-get={ string(templ.URL("/current-game")) } hx-target="#main-view">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -46,7 +46,7 @@ templ NavBottom(active string) {
 			</button>
 			<button if active=="record" {
 	class="active"
-} hx-get="/history" hx-target="#main-view">
+} hx-get={ string(templ.URL("/history")) } hx-target="#main-view">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
