@@ -27,7 +27,12 @@ templ GameForm(pl []types.Player) {
 		// TODO: Buscar la manera de pushear la url de `/current-game` después de crear
 		// un juego nuevo la idea sería guardar la partida
 		// en la db -> redirigir a /current-game -> GET req -> db/last-game -> currentGame
-		<form class="flex flex-col space-y-3" hx-post={ string(templ.URL("/game/new")) } hx-target="#main-view">
+		<form
+			class="flex flex-col space-y-3"
+			hx-post={ string(templ.URL("/game/new")) }
+			hx-target="#main-view"
+			hx-target-error="#game-errors"
+		>
 			<div class="flex flex-row space-x-2">
 				<div class="flex flex-row space-x-1 w-full">
 					<select id="player1" name="player1" class="select select-bordered w-full">
@@ -80,6 +85,7 @@ templ GameForm(pl []types.Player) {
 				</svg>
 				<input autocomplete="off" type="text" class="grow" name="tower-hp" placeholder="Towers HP (60)"/>
 			</label>
+			<div id="game-errors" class="my-3"></div>
 			<button class="btn btn-primary text-2xl" type="submit">Play!</button>
 		</form>
 		<div id="new-player-modal"></div>
