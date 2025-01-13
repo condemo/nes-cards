@@ -10,8 +10,8 @@ templ GameView(g *types.Game) {
 		@components.PlayersResume(g.Player1, g.Player2)
 		<!-- @components.TowersResume(*t1, *t2) -->
 		<!-- @components.TowersResume(*t1, *t2) -->
-		@components.NavBottom("game")
 	</div>
+	@components.NavBottom("game")
 }
 
 templ EmptyView() {
@@ -19,4 +19,5 @@ templ EmptyView() {
 		<img src="/static/img/empty_meme.jpeg" class="w-56 mx-auto"/>
 		<h1 class="text-3xl font-bold my-2">There is no game yet</h1>
 	</div>
+	@components.NavBottom("game")
 }
