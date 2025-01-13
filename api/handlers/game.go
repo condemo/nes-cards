@@ -64,13 +64,23 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	player1 := types.NewPlayer(p1, playerHP)
 	player2 := types.NewPlayer(p2, playerHP)
 
-	err := h.store.GetPlayerByName(player1)
-	if err != nil {
-		return err
+	if ok := h.store.CheckPlayer(player1.Name); !ok {
+		if err := h.store.CreatePlayer(player1); err != nil {
+			return err
+		} else {
+			if err := h.store.GetPlayerByName(player1); err != nil {
+				return err
+			}
+		}
 	}
-	err = h.store.GetPlayerByName(player2)
-	if err != nil {
-		return err
+	if ok := h.store.CheckPlayer(player2.Name); !ok {
+		if err := h.store.CreatePlayer(player2); err != nil {
+			return err
+		} else {
+			if err := h.store.GetPlayerByName(player2); err != nil {
+				return err
+			}
+		}
 	}
 
 	// Create Game
