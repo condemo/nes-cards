@@ -11,10 +11,10 @@ type Game struct {
 	bun.BaseModel `bun:"table:games,alias:g"`
 
 	ID        int64 `bun:",pk,autoincrement"`
-	P1        int64
-	P2        int64
-	Player1   Player    `bun:"rel:belongs-to,join:p1=id"`
-	Player2   Player    `bun:"rel:belongs-to,join:p2=id"`
+	P1ID      int64
+	P2ID      int64
+	Player1   Player    `bun:"rel:belongs-to,join:p1id=id"`
+	Player2   Player    `bun:"rel:belongs-to,join:p2id=id"`
 	Winner    string    `bun:"winner"`
 	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 }
@@ -38,8 +38,8 @@ func (g *Game) BeforeAppendModel(ctx context.Context, query bun.Query) error {
 
 func NewGame(pid1, pid2 int64) *Game {
 	g := &Game{
-		P1:     pid1,
-		P2:     pid2,
+		P1ID:   pid1,
+		P2ID:   pid2,
 		Winner: "none",
 	}
 

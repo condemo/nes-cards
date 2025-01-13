@@ -75,8 +75,8 @@ func (s *Storage) CreateGame(g *types.Game) error {
 	}
 
 	err = s.db.NewSelect().Model(g).
-		Relation("Player1").Where("p1 = player1.id").
-		Relation("Player2").Where("p2 = player2.id").
+		Relation("Player1").Where("p1id = player1.id").
+		Relation("Player2").Where("p2id = player2.id").
 		Where("g.id = ?", g.ID).
 		Scan(context.Background())
 
@@ -86,8 +86,8 @@ func (s *Storage) CreateGame(g *types.Game) error {
 func (s *Storage) GetLastGame() (*types.Game, error) {
 	g := new(types.Game)
 	err := s.db.NewSelect().Model(g).
-		Relation("Player1").Where("p1 = player1.id").
-		Relation("Player2").Where("p2 = player2.id").
+		Relation("Player1").Where("p1id = player1.id").
+		Relation("Player2").Where("p2id = player2.id").
 		Order("g.created_at DESC").Limit(1).
 		Scan(context.Background())
 
@@ -98,8 +98,8 @@ func (s *Storage) GetGameList() ([]types.Game, error) {
 	var pl []types.Game
 
 	err := s.db.NewSelect().Model(&pl).
-		Relation("Player1").Where("p1=player1.id").
-		Relation("Player2").Where("p2=Player2.id").
+		Relation("Player1").Where("p1id=player1.id").
+		Relation("Player2").Where("p2id=Player2.id").
 		Scan(context.Background())
 	if err != nil {
 		return nil, err
