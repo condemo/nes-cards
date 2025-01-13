@@ -9,7 +9,7 @@ run: build
 	@./bin/${binary-name}-linux
 
 kill-services:
-	@lsof -t -i:4000 | xargs -r kill
+	@lsof -t -i:3000 | xargs -r kill
 
 test:
 	@go test ./cmd/main.go
