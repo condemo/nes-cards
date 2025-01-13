@@ -11,6 +11,7 @@ import (
 
 	"github.com/condemo/nes-cards/api/handlers"
 	"github.com/condemo/nes-cards/api/middlewares"
+	"github.com/condemo/nes-cards/service"
 	"github.com/condemo/nes-cards/store"
 )
 
@@ -51,9 +52,12 @@ func (s *ApiServer) Run() {
 		WriteTimeout: time.Second * 5,
 	}
 
-	viewsHandler := handlers.NewViewsHandler(s.store)
+	// GameService
+	gc := service.NewGameController()
+
+	viewsHandler := handlers.NewViewsHandler(s.store, gc)
 	viewsHandler.RegisterRoutes(views)
-	gameHandler := handlers.NewGameHandler(s.store)
+	gameHandler := handlers.NewGameHandler(s.store, gc)
 	gameHandler.RegisterRoutes(game)
 	playerHandler := handlers.NewPlayerHandler(s.store)
 	playerHandler.RegisterRoutes(player)

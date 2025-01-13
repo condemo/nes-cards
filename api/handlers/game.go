@@ -6,16 +6,18 @@ import (
 
 	apiErrors "github.com/condemo/nes-cards/api/api_errors"
 	"github.com/condemo/nes-cards/public/views/core"
+	"github.com/condemo/nes-cards/service"
 	"github.com/condemo/nes-cards/store"
 	"github.com/condemo/nes-cards/types"
 )
 
 type gameHandler struct {
 	store store.Store
+	gc    *service.GameController
 }
 
-func NewGameHandler(s store.Store) *gameHandler {
-	return &gameHandler{store: s}
+func NewGameHandler(s store.Store, gc *service.GameController) *gameHandler {
+	return &gameHandler{store: s, gc: gc}
 }
 
 func (h *gameHandler) RegisterRoutes(r *http.ServeMux) {
@@ -76,6 +78,8 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	if err := h.store.CreateGame(game); err != nil {
 		return err
 	}
+
+	h.gc.SetGame(game)
 
 	return RenderTempl(w, r, core.GameView(game))
 }

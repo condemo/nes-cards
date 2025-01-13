@@ -4,17 +4,20 @@ import (
 	"net/http"
 
 	"github.com/condemo/nes-cards/public/views/core"
+	"github.com/condemo/nes-cards/service"
 	"github.com/condemo/nes-cards/store"
 	"github.com/condemo/nes-cards/types"
 )
 
 type viewsHandler struct {
 	db store.Store
+	gc *service.GameController
 }
 
-func NewViewsHandler(s store.Store) *viewsHandler {
+func NewViewsHandler(s store.Store, gc *service.GameController) *viewsHandler {
 	return &viewsHandler{
 		db: s,
+		gc: gc,
 	}
 }
 
@@ -35,13 +38,14 @@ func (h *viewsHandler) frontView(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (h *viewsHandler) gameView(w http.ResponseWriter, r *http.Request) error {
-	// TODO:
 	var game *types.Game
 
 	game, err := h.db.GetLastGame()
 	if err != nil {
 		return RenderTempl(w, r, core.EmptyView())
 	}
+
+	h.gc.SetGame(game)
 
 	return RenderTempl(w, r, core.GameView(game))
 }
