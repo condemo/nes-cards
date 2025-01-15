@@ -269,7 +269,7 @@ func PlayerGameStats(p types.Player, towers []*types.Tower) templ.Component {
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d",
 				t.HP))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/components/record_cards.templ`, Line: 76, Col: 11}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `public/views/components/record_cards.templ`, Line: 75, Col: 11}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {

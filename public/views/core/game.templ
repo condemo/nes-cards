@@ -8,8 +8,8 @@ import (
 templ GameView(g *types.Game) {
 	<div id="game-view">
 		@components.PlayersResume(g.Player1, g.Player2)
-		<!-- @components.TowersResume(*t1, *t2) -->
-		<!-- @components.TowersResume(*t1, *t2) -->
+		@components.TowersResume(g.Towers1)
+		@components.TowersResume(g.Towers2)
 	</div>
 	@components.NavBottom("game")
 }

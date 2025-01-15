@@ -51,7 +51,6 @@ templ PlayerGameStats(p types.Player, towers []*types.Tower) {
 			</svg>
 			<p class="align-middle text-black">{ fmt.Sprintf("%d", p.HP) }</p>
 		</div>
-		// TODO: Usar un `for` para mostrar las torres en lugar de repetir código
 		for _, t := range towers {
 			<div
 				if t.HP <=0 {
