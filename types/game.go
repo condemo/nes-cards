@@ -15,6 +15,8 @@ type Game struct {
 	P2ID      int64
 	Player1   Player    `bun:"rel:belongs-to,join:p1id=id"`
 	Player2   Player    `bun:"rel:belongs-to,join:p2id=id"`
+	Towers1   []*Tower  `bun:"rel:has-many,join:p1id=player_id,join:id=game_id"`
+	Towers2   []*Tower  `bun:"rel:has-many,join:p2id=player_id,join:id=game_id"`
 	Winner    string    `bun:"winner"`
 	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 }

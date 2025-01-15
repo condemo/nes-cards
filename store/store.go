@@ -13,6 +13,7 @@ type Store interface {
 	GetPlayerById(*types.Player) error
 	GetPlayerByName(*types.Player) error
 	GetPlayerList() ([]types.Player, error)
+	CreateTowerList([]*types.Tower) error
 	CreateGame(*types.Game) error
 	GetLastGame() (*types.Game, error)
 	GetGameList() ([]types.Game, error)
@@ -66,6 +67,12 @@ func (s *Storage) GetPlayerList() ([]types.Player, error) {
 	return pl, err
 }
 
+func (s *Storage) CreateTowerList(tl []*types.Tower) error {
+	_, err := s.db.NewInsert().Model(&tl).
+		Returning("*").Exec(context.Background())
+	return err
+}
+
 func (s *Storage) CreateGame(g *types.Game) error {
 	// TODO: Ineficiente, dos querys en lugar de una
 	_, err := s.db.NewInsert().Model(g).
@@ -100,6 +107,12 @@ func (s *Storage) GetGameList() ([]types.Game, error) {
 	err := s.db.NewSelect().Model(&pl).
 		Relation("Player1").Where("p1id=player1.id").
 		Relation("Player2").Where("p2id=Player2.id").
+		Relation("Towers1", func(q *bun.SelectQuery) *bun.SelectQuery {
+			return q.ExcludeColumn("*")
+		}).
+		Relation("Towers2", func(q *bun.SelectQuery) *bun.SelectQuery {
+			return q.ExcludeColumn("*")
+		}).
 		Scan(context.Background())
 	if err != nil {
 		return nil, err

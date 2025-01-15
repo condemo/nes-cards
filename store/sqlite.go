@@ -52,6 +52,13 @@ func (s *SqliteStore) Init() (*bun.DB, error) {
 		return nil, err
 	}
 
+	// Tower Table
+	_, err = s.db.NewCreateTable().Model((*types.Tower)(nil)).
+		IfNotExists().Exec(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
 	return s.db, nil
 }
 

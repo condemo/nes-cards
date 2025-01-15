@@ -67,25 +67,38 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	if ok := h.store.CheckPlayer(player1.Name); !ok {
 		if err := h.store.CreatePlayer(player1); err != nil {
 			return err
-		} else {
-			if err := h.store.GetPlayerByName(player1); err != nil {
-				return err
-			}
+		}
+	} else {
+		if err := h.store.GetPlayerByName(player1); err != nil {
+			return err
 		}
 	}
 	if ok := h.store.CheckPlayer(player2.Name); !ok {
 		if err := h.store.CreatePlayer(player2); err != nil {
 			return err
-		} else {
-			if err := h.store.GetPlayerByName(player2); err != nil {
-				return err
-			}
+		}
+	} else {
+		if err := h.store.GetPlayerByName(player2); err != nil {
+			return err
 		}
 	}
 
 	// Create Game
 	game = types.NewGame(player1.ID, player2.ID)
 	if err := h.store.CreateGame(game); err != nil {
+		return err
+	}
+
+	p1t1, p1t2 := types.NewTower(game.ID, player1.ID, 60)
+	p2t1, p2t2 := types.NewTower(game.ID, player2.ID, 60)
+
+	tl := []*types.Tower{p1t1, p1t2, p2t1, p2t2}
+	if err := h.store.CreateTowerList(tl); err != nil {
+		return err
+	}
+
+	game, err := h.store.GetLastGame()
+	if err != nil {
 		return err
 	}
 
