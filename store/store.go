@@ -84,6 +84,12 @@ func (s *Storage) CreateGame(g *types.Game) error {
 	err = s.db.NewSelect().Model(g).
 		Relation("Player1").Where("p1id = player1.id").
 		Relation("Player2").Where("p2id = player2.id").
+		Relation("Towers1", func(q *bun.SelectQuery) *bun.SelectQuery {
+			return q.ExcludeColumn("*")
+		}).
+		Relation("Towers2", func(q *bun.SelectQuery) *bun.SelectQuery {
+			return q.ExcludeColumn("*")
+		}).
 		Where("g.id = ?", g.ID).
 		Scan(context.Background())
 
@@ -95,6 +101,12 @@ func (s *Storage) GetLastGame() (*types.Game, error) {
 	err := s.db.NewSelect().Model(g).
 		Relation("Player1").Where("p1id = player1.id").
 		Relation("Player2").Where("p2id = player2.id").
+		Relation("Towers1", func(q *bun.SelectQuery) *bun.SelectQuery {
+			return q.ExcludeColumn("*")
+		}).
+		Relation("Towers2", func(q *bun.SelectQuery) *bun.SelectQuery {
+			return q.ExcludeColumn("*")
+		}).
 		Order("g.created_at DESC").Limit(1).
 		Scan(context.Background())
 
