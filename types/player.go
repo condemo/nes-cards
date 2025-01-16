@@ -1,13 +1,15 @@
 package types
 
-import "github.com/uptrace/bun"
+import (
+	"github.com/uptrace/bun"
+)
 
 type Player struct {
 	bun.BaseModel `bun:"table:players,alias:p"`
 
 	ID   int64  `bun:",pk,autoincrement"`
-	Name string `bun:",notnull"`
-	HP   uint8  `bun:",nullzero"`
+	Name string `bun:",notnull" validate:"required,min=3,max=10,alphanum"`
+	HP   uint8  `bun:",nullzero" validate:"required,gte=0,lte=255"`
 	al   []AlteredEffect
 }
 
@@ -19,6 +21,11 @@ func NewPlayer(name string, hp uint8) *Player {
 	}
 
 	return p
+}
+
+func (p *Player) Validate() error {
+	err := validate.Struct(p)
+	return err
 }
 
 func (p *Player) TakeDMG(dmg uint8) {

@@ -1,5 +1,9 @@
 package types
 
+import "github.com/go-playground/validator/v10"
+
+var validate = validator.New(validator.WithRequiredStructEnabled())
+
 type Structure interface {
 	TakeDMG(uint8)
 	AddDefense(uint8)

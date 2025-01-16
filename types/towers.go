@@ -8,7 +8,7 @@ type Tower struct {
 	ID       int64 `bun:",pk,autoincrement"`
 	GameID   int64 `bun:",notnull"`
 	PlayerID int64 `bun:",notnull"`
-	HP       uint8 `bun:",nullzero"`
+	HP       uint8 `bun:",nullzero" validator:"gte=0,lte=255"`
 }
 
 // NewTower recibe GameID y PlayerID además de una cantidad de HP e instancia dos Torres
@@ -22,4 +22,9 @@ func NewTower(gid, pid int64, hp uint8) (*Tower, *Tower) {
 	t2 := *t
 
 	return t, &t2
+}
+
+func (t *Tower) Validate() error {
+	err := validate.Struct(t)
+	return err
 }

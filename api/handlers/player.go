@@ -10,6 +10,7 @@ import (
 	"github.com/condemo/nes-cards/public/views/core"
 	"github.com/condemo/nes-cards/store"
 	"github.com/condemo/nes-cards/types"
+	"github.com/go-playground/validator/v10"
 )
 
 type playerHandler struct {
@@ -49,6 +50,16 @@ func (h *playerHandler) createPlayer(w http.ResponseWriter, r *http.Request) err
 	}
 
 	player := types.NewPlayer(p, 80)
+	if err := player.Validate(); err != nil {
+		valErr, ok := err.(validator.ValidationErrors)
+		if ok {
+			return apiErrors.NewApiError(
+				valErr,
+				"player name must have min 3 chars, max 10 chars and no symbols; ñ is forbidden 🇪🇦",
+				http.StatusBadRequest)
+		}
+		return err
+	}
 	if err := h.store.CreatePlayer(player); err != nil {
 		return err
 	}

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -37,10 +38,12 @@ func (h *gameHandler) newGameView(w http.ResponseWriter, r *http.Request) error 
 func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error {
 	var game *types.Game
 	var playerHP uint8 = 80
+	var towerHP uint8 = 60
 
 	p1 := r.FormValue("player1")
 	p2 := r.FormValue("player2")
 	pHP := r.FormValue("player-hp")
+	tHP := r.FormValue("tower-hp")
 
 	// Default Player names if Name is empty
 	if p1 == "" {
@@ -50,14 +53,24 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 		p2 = "Player2"
 	}
 
-	// Check if pHP is empty
+	// Check if pHP is not empty
 	if pHP != "" {
 		h, err := strconv.ParseUint(pHP, 10, 8)
 		if err != nil {
 			return apiErrors.NewApiError(
-				err, "hp must be an integer", http.StatusBadRequest)
+				err, "hp must be an integer less than 255", http.StatusBadRequest)
 		}
 		playerHP = uint8(h)
+	}
+
+	// Check if tHP is not empty
+	if tHP != "" {
+		h, err := strconv.ParseUint(tHP, 10, 8)
+		if err != nil {
+			return apiErrors.NewApiError(
+				err, "tower hp must be an integer less than 255", http.StatusBadRequest)
+		}
+		towerHP = uint8(h)
 	}
 
 	// Players create
@@ -72,6 +85,9 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 		if err := h.store.GetPlayerByName(player1); err != nil {
 			return err
 		}
+		fmt.Printf("%+v", player1)
+		player1.HP = playerHP
+		fmt.Printf("%+v", player1)
 	}
 	if ok := h.store.CheckPlayer(player2.Name); !ok {
 		if err := h.store.CreatePlayer(player2); err != nil {
@@ -81,6 +97,7 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 		if err := h.store.GetPlayerByName(player2); err != nil {
 			return err
 		}
+		player2.HP = playerHP
 	}
 
 	// Create Game
@@ -89,10 +106,18 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 		return err
 	}
 
-	p1t1, p1t2 := types.NewTower(game.ID, player1.ID, 60)
-	p2t1, p2t2 := types.NewTower(game.ID, player2.ID, 60)
+	p1t1, p1t2 := types.NewTower(game.ID, player1.ID, towerHP)
+	p2t1, p2t2 := types.NewTower(game.ID, player2.ID, towerHP)
 
 	tl := []*types.Tower{p1t1, p1t2, p2t1, p2t2}
+	for _, t := range tl {
+		if err := t.Validate(); err != nil {
+			return apiErrors.NewApiError(
+				err,
+				"towers hp must be more than 0 and less than 255",
+				http.StatusBadRequest)
+		}
+	}
 	if err := h.store.CreateTowerList(tl); err != nil {
 		return err
 	}
