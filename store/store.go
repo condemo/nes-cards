@@ -13,7 +13,8 @@ type Store interface {
 	GetPlayerById(*types.Player) error
 	GetPlayerByName(*types.Player) error
 	GetPlayerList() ([]types.Player, error)
-	CreateTowerList([]*types.Tower) error
+	GetGameStats(int64) ([]types.Stats, error)
+	CreatePlayerStats([]*types.Stats) error
 	CreateGame(*types.Game) error
 	GetLastGame() (*types.Game, error)
 	GetGameList() ([]types.Game, error)
@@ -67,8 +68,8 @@ func (s *Storage) GetPlayerList() ([]types.Player, error) {
 	return pl, err
 }
 
-func (s *Storage) CreateTowerList(tl []*types.Tower) error {
-	_, err := s.db.NewInsert().Model(&tl).
+func (s *Storage) CreatePlayerStats(ps []*types.Stats) error {
+	_, err := s.db.NewInsert().Model(&ps).
 		Returning("*").Exec(context.Background())
 	return err
 }
@@ -81,19 +82,17 @@ func (s *Storage) CreateGame(g *types.Game) error {
 		return err
 	}
 
-	err = s.db.NewSelect().Model(g).
-		Relation("Player1").Where("p1id = player1.id").
-		Relation("Player2").Where("p2id = player2.id").
-		Relation("Towers1", func(q *bun.SelectQuery) *bun.SelectQuery {
-			return q.ExcludeColumn("*")
-		}).
-		Relation("Towers2", func(q *bun.SelectQuery) *bun.SelectQuery {
-			return q.ExcludeColumn("*")
-		}).
-		Where("g.id = ?", g.ID).
-		Scan(context.Background())
-
 	return err
+}
+
+func (s *Storage) GetGameStats(gid int64) ([]types.Stats, error) {
+	sl := make([]types.Stats, 2)
+	err := s.db.NewSelect().Model(&sl).
+		Relation("Player").
+		Where("player_id = player.id").
+		Where("game_id = ?", gid).
+		Scan(context.Background())
+	return sl, err
 }
 
 func (s *Storage) GetLastGame() (*types.Game, error) {
@@ -101,12 +100,8 @@ func (s *Storage) GetLastGame() (*types.Game, error) {
 	err := s.db.NewSelect().Model(g).
 		Relation("Player1").Where("p1id = player1.id").
 		Relation("Player2").Where("p2id = player2.id").
-		Relation("Towers1", func(q *bun.SelectQuery) *bun.SelectQuery {
-			return q.ExcludeColumn("*")
-		}).
-		Relation("Towers2", func(q *bun.SelectQuery) *bun.SelectQuery {
-			return q.ExcludeColumn("*")
-		}).
+		Relation("P1Stats").Where("p1id = p1_stats.player_id").
+		Relation("P2Stats").Where("p2id = p2_stats.player_id").
 		Order("g.created_at DESC").Limit(1).
 		Scan(context.Background())
 
@@ -119,12 +114,8 @@ func (s *Storage) GetGameList() ([]types.Game, error) {
 	err := s.db.NewSelect().Model(&pl).
 		Relation("Player1").Where("p1id=player1.id").
 		Relation("Player2").Where("p2id=Player2.id").
-		Relation("Towers1", func(q *bun.SelectQuery) *bun.SelectQuery {
-			return q.ExcludeColumn("*")
-		}).
-		Relation("Towers2", func(q *bun.SelectQuery) *bun.SelectQuery {
-			return q.ExcludeColumn("*")
-		}).
+		Relation("P1Stats").Where("p1id = p1_stats.player_id").
+		Relation("P2Stats").Where("p2id = p2_stats.player_id").
 		Scan(context.Background())
 	if err != nil {
 		return nil, err

@@ -13,7 +13,7 @@ import (
 	"github.com/condemo/nes-cards/types"
 )
 
-func GameView(g *types.Game) templ.Component {
+func GameView(sl []types.Stats) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -38,15 +38,15 @@ func GameView(g *types.Game) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.PlayersResume(g.Player1, g.Player2).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.PlayersResume(sl[0].Player, sl[1].Player, sl[0].HP, sl[1].HP).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.TowersResume(g.Towers1).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.TowersResume(sl[0].T1HP, sl[0].T2HP).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.TowersResume(g.Towers2).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.TowersResume(sl[1].T1HP, sl[1].T2HP).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

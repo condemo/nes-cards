@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -99,7 +98,6 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	// Create Game
 	game = types.NewGame(player1.ID, player2.ID)
 	if err := h.store.CreateGame(game); err != nil {
-		fmt.Println("error creando el game")
 		return err
 	}
 
@@ -127,6 +125,10 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	}
 
 	h.gc.SetGame(game)
+	sl, err := h.store.GetGameStats(game.ID)
+	if err != nil {
+		return err
+	}
 
-	return RenderTempl(w, r, core.GameView(game))
+	return RenderTempl(w, r, core.GameView(sl))
 }

@@ -15,8 +15,8 @@ type Game struct {
 	P2ID      int64
 	Player1   Player    `bun:"rel:belongs-to,join:p1id=id"`
 	Player2   Player    `bun:"rel:belongs-to,join:p2id=id"`
-	Towers1   []*Tower  `bun:"rel:has-many,join:p1id=player_id,join:id=game_id"`
-	Towers2   []*Tower  `bun:"rel:has-many,join:p2id=player_id,join:id=game_id"`
+	P1Stats   *Stats    `bun:"rel:has-one,join:p1id=player_id,join:id=game_id"`
+	P2Stats   *Stats    `bun:"rel:has-one,join:p2id=player_id,join:id=game_id"`
 	Winner    string    `bun:"winner"`
 	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 }
@@ -30,8 +30,7 @@ func (g *Game) BeforeAppendModel(ctx context.Context, query bun.Query) error {
 		location, err := time.LoadLocation("Europe/Madrid")
 		if err != nil {
 			return err
-		}
-		// FIX: Añado una hora de free por el cambio de hora, debería ser automático
+		} // FIX: Añado una hora de free por el cambio de hora, debería ser automático
 		g.CreatedAt = time.Now().In(location).Add(time.Hour)
 	}
 

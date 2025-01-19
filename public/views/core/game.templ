@@ -5,11 +5,11 @@ import (
 	"github.com/condemo/nes-cards/types"
 )
 
-templ GameView(g *types.Game) {
+templ GameView(sl []types.Stats) {
 	<div id="game-view">
-		@components.PlayersResume(g.Player1, g.Player2)
-		@components.TowersResume(g.Towers1)
-		@components.TowersResume(g.Towers2)
+		@components.PlayersResume(sl[0].Player, sl[1].Player, sl[0].HP, sl[1].HP)
+		@components.TowersResume(sl[0].T1HP, sl[0].T2HP)
+		@components.TowersResume(sl[1].T1HP, sl[1].T2HP)
 	</div>
 	@components.NavBottom("game")
 }

@@ -1,33 +1,28 @@
 package components
 
-import (
-	"fmt"
-	"github.com/condemo/nes-cards/types"
-)
+import "fmt"
 
-templ TowersResume(t []*types.Tower) {
-	<div id="towers-resume" class="flex flex-row justify-around space-x-1">
-		// TODO: Crear las torres en el server
-		@TowerInfo(t[0])
-		@TowerInfo(t[1])
-	</div>
+templ TowersResume(t1, t2 uint8) {
+<div id="towers-resume" class="flex flex-row justify-around space-x-1">
+  // TODO: Crear las torres en el server
+  @TowerInfo(t1)
+  @TowerInfo(t2)
+</div>
 }
 
-templ TowerInfo(t *types.Tower) {
-	<div id="tower-info">
-		<div class="card bg-base-300 shadow-xl my-2 rounded-full">
-			<div class="card-body">
-				<div class="flex flex-row items-center">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-						<path
-							fill-rule="evenodd"
-							d="M4.5 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5h-.75V3.75a.75.75 0 0 0 0-1.5h-15ZM9 6a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm-.75 3.75A.75.75 0 0 1 9 9h1.5a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM9 12a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm3.75-5.25A.75.75 0 0 1 13.5 6H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM13.5 9a.75.75 0 0 0 0 1.5H15A.75.75 0 0 0 15 9h-1.5Zm-.75 3.75a.75.75 0 0 1 .75-.75H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM9 19.5v-2.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-4.5A.75.75 0 0 1 9 19.5Z"
-							clip-rule="evenodd"
-						></path>
-					</svg>
-					<p class="text-2xl font-bold">{ fmt.Sprintf("%d", t.HP) }</p>
-				</div>
-			</div>
-		</div>
-	</div>
+templ TowerInfo(t uint8) {
+<div id="tower-info">
+  <div class="card bg-base-300 shadow-xl my-2 rounded-full">
+    <div class="card-body">
+      <div class="flex flex-row items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+          <path fill-rule="evenodd"
+            d="M4.5 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5h-.75V3.75a.75.75 0 0 0 0-1.5h-15ZM9 6a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm-.75 3.75A.75.75 0 0 1 9 9h1.5a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM9 12a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm3.75-5.25A.75.75 0 0 1 13.5 6H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM13.5 9a.75.75 0 0 0 0 1.5H15A.75.75 0 0 0 15 9h-1.5Zm-.75 3.75a.75.75 0 0 1 .75-.75H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM9 19.5v-2.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-4.5A.75.75 0 0 1 9 19.5Z"
+            clip-rule="evenodd"></path>
+        </svg>
+        <p class="text-2xl font-bold">{ fmt.Sprintf("%d", t) }</p>
+      </div>
+    </div>
+  </div>
+</div>
 }
