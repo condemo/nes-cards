@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/condemo/nes-cards/public/views/core"
@@ -58,7 +57,6 @@ func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) error
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%+v", gl)
 
 	if len(gl) == 0 {
 		return RenderTempl(w, r, core.HistoryEmpty())
