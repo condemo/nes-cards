@@ -17,7 +17,7 @@ type Store interface {
 	CreatePlayerStats([]*types.Stats) error
 	CreateGame(*types.Game) error
 	GetLastGame() (*types.Game, error)
-	GetGameList() ([]types.Game, error)
+	GetGameList() ([]*types.Game, error)
 }
 
 type Storage struct {
@@ -108,8 +108,8 @@ func (s *Storage) GetLastGame() (*types.Game, error) {
 	return g, err
 }
 
-func (s *Storage) GetGameList() ([]types.Game, error) {
-	var pl []types.Game
+func (s *Storage) GetGameList() ([]*types.Game, error) {
+	var pl []*types.Game
 
 	err := s.db.NewSelect().Model(&pl).
 		Relation("Player1").Where("p1id=player1.id").

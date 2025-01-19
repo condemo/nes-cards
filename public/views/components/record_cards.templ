@@ -1,73 +1,83 @@
 package components
 
 import (
-"fmt"
-"github.com/condemo/nes-cards/types"
+	"fmt"
+	"github.com/condemo/nes-cards/types"
 )
 
-templ RecordCards(g types.Game) {
-<div id={ fmt.Sprintf("record-card-%d", g.ID) }>
-  <div class="card bg-base-100 shadow-xl">
-    <div class="card-body">
-      <h2 class="card-title">{ g.CreatedAt.Format("01/02/2006") }</h2>
-      <div class="flex flex-row justify-around">
-        @SimplePlayerStat(g.Player1, g.Winner, g.P1Stats)
-        @SimplePlayerStat(g.Player2, g.Winner, g.P2Stats)
-      </div>
-    </div>
-  </div>
-</div>
+templ RecordCards(g *types.Game) {
+	<div id={ fmt.Sprintf("record-card-%d", g.ID) }>
+		<div class="card bg-base-100 shadow-xl">
+			<div class="card-body">
+				<h2 class="card-title">{ g.CreatedAt.Format("01/02/2006") }</h2>
+				<div class="flex flex-row justify-around">
+					@SimplePlayerStat(g.Player1, g.Winner, g.P1Stats)
+					@SimplePlayerStat(g.Player2, g.Winner, g.P2Stats)
+				</div>
+			</div>
+		</div>
+	</div>
 }
 
-templ SimplePlayerStat(p types.Player, winner string, st *types.Stats) {
-<div id={ fmt.Sprintf("simple-player-%d", p.ID) }>
-  if p.Name == winner && p.Name != "none" {
-  <div class="card bg-success shadow-xl w-32">
-    <div class="card-body">
-      <h2 class="card-title text-xl font-bold">{ p.Name }</h2>
-      @PlayerGameStats(p, st.T1HP, st.T2HP)
-    </div>
-  </div>
-  } else {
-  <div class="card bg-base-100 shadow-xl w-32">
-    <div class="card-body">
-      <h2 class="card-title">{ p.Name }</h2>
-      @PlayerGameStats(p, st.T1HP, st.T2HP)
-    </div>
-  </div>
-  }
-</div>
+templ SimplePlayerStat(p *types.Player, winner string, st *types.Stats) {
+	<div id={ fmt.Sprintf("simple-player-%d", p.ID) }>
+		if p.Name == winner && p.Name != "none" {
+			<div class="card bg-success shadow-xl w-32">
+				<div class="card-body">
+					<h2 class="card-title text-xl font-bold">{ p.Name }</h2>
+					@PlayerGameStats(p, st)
+				</div>
+			</div>
+		} else {
+			<div class="card bg-base-100 shadow-xl w-32">
+				<div class="card-body">
+					<h2 class="card-title">{ p.Name }</h2>
+					@PlayerGameStats(p, st)
+				</div>
+			</div>
+		}
+	</div>
 }
 
-templ PlayerGameStats(p types.Player, thp1, thp2 uint8) {
-// TODO: Cargar dinámicamente los datos, poner en gris las torres destruidas, etc
-// Mejorar el diseño de el código, mucho bloque repetido, hacerlo más dinámico
-<div id={ fmt.Sprintf("player-%d", p.ID) } class="flex flex-col">
-  <div class="flex flex-row items-center text-error">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-      <path
-        d="M2 6.342a3.375 3.375 0 0 1 6-2.088 3.375 3.375 0 0 1 5.997 2.26c-.063 2.134-1.618 3.76-2.955 4.784a14.437 14.437 0 0 1-2.676 1.61c-.02.01-.038.017-.05.022l-.014.006-.004.002h-.002a.75.75 0 0 1-.592.001h-.002l-.004-.003-.015-.006a5.528 5.528 0 0 1-.232-.107 14.395 14.395 0 0 1-2.535-1.557C3.564 10.22 1.999 8.558 1.999 6.38L2 6.342Z">
-      </path>
-    </svg>
-    // TODO: implementar
-    // <p class="align-middle text-black">{ fmt.Sprintf("%d", p.HP) }</p>
-  </div>
-  @TowerHP(thp1)
-  @TowerHP(thp2)
-</div>
+templ PlayerGameStats(p *types.Player, st *types.Stats) {
+	// TODO: Cargar dinámicamente los datos, poner en gris las torres destruidas, etc
+	// Mejorar el diseño de el código, mucho bloque repetido, hacerlo más dinámico
+	<div id={ fmt.Sprintf("player-%d", p.ID) } class="flex flex-col">
+		<div class="flex flex-row items-center text-error">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+				<path
+					d="M2 6.342a3.375 3.375 0 0 1 6-2.088 3.375 3.375 0 0 1 5.997 2.26c-.063 2.134-1.618 3.76-2.955 4.784a14.437 14.437 0 0 1-2.676 1.61c-.02.01-.038.017-.05.022l-.014.006-.004.002h-.002a.75.75 0 0 1-.592.001h-.002l-.004-.003-.015-.006a5.528 5.528 0 0 1-.232-.107 14.395 14.395 0 0 1-2.535-1.557C3.564 10.22 1.999 8.558 1.999 6.38L2 6.342Z"
+				></path>
+			</svg>
+			<p class="align-middle text-black">{ fmt.Sprintf("%d", st.HP) }</p>
+		</div>
+		@TowerHP(st.T1HP)
+		@TowerHP(st.T2HP)
+	</div>
 }
 
 templ TowerHP(thp uint8) {
-<div if thp <=0 { class="flex flex-row items-center text-base-300" } else {
-  class="flex flex-row items-center text-black" }>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-    <path fill-rule="evenodd"
-      d="M3.75 2a.75.75 0 0 0 0 1.5H4v9h-.25a.75.75 0 0 0 0 1.5H6a.5.5 0 0 0 .5-.5v-3A.5.5 0 0 1 7 10h2a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h2.25a.75.75 0 0 0 0-1.5H12v-9h.25a.75.75 0 0 0 0-1.5h-8.5ZM6.5 4a.5.5 0 0 0-.5.5V5a.5.5 0 0 0 .5.5H7a.5.5 0 0 0 .5-.5v-.5A.5.5 0 0 0 7 4h-.5ZM6 7a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 .5.5v.5A.5.5 0 0 1 7 8h-.5a.5.5 0 0 1-.5-.5V7Zm3-3a.5.5 0 0 0-.5.5V5a.5.5 0 0 0 .5.5h.5A.5.5 0 0 0 10 5v-.5a.5.5 0 0 0-.5-.5H9Zm-.5 3a.5.5 0 0 1 .5-.5h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H9a.5.5 0 0 1-.5-.5V7Z"
-      clip-rule="evenodd"></path>
-  </svg>
-  <p if thp <=0 { class="align-middle text-base-300" } else { class="align-middle text-black" }>
-    { fmt.Sprintf("%d",
+	<div
+		if thp <=0 {
+			class="flex flex-row items-center text-base-300"
+		} else {
+			class="flex flex-row items-center text-black"
+		}
+	>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+			<path
+				fill-rule="evenodd"
+				d="M3.75 2a.75.75 0 0 0 0 1.5H4v9h-.25a.75.75 0 0 0 0 1.5H6a.5.5 0 0 0 .5-.5v-3A.5.5 0 0 1 7 10h2a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h2.25a.75.75 0 0 0 0-1.5H12v-9h.25a.75.75 0 0 0 0-1.5h-8.5ZM6.5 4a.5.5 0 0 0-.5.5V5a.5.5 0 0 0 .5.5H7a.5.5 0 0 0 .5-.5v-.5A.5.5 0 0 0 7 4h-.5ZM6 7a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 .5.5v.5A.5.5 0 0 1 7 8h-.5a.5.5 0 0 1-.5-.5V7Zm3-3a.5.5 0 0 0-.5.5V5a.5.5 0 0 0 .5.5h.5A.5.5 0 0 0 10 5v-.5a.5.5 0 0 0-.5-.5H9Zm-.5 3a.5.5 0 0 1 .5-.5h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H9a.5.5 0 0 1-.5-.5V7Z"
+				clip-rule="evenodd"
+			></path>
+		</svg>
+		<p if thp <=0 {
+	class="align-middle text-base-300"
+} else {
+	class="align-middle text-black"
+}>
+			{ fmt.Sprintf("%d",
     thp) }
-  </p>
-</div>
+		</p>
+	</div>
 }

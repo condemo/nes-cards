@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/condemo/nes-cards/public/views/core"
@@ -45,21 +44,15 @@ func (h *viewsHandler) gameView(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return RenderTempl(w, r, core.EmptyView())
 	}
+
 	h.gc.SetGame(game)
 
-	sl, err := h.db.GetGameStats(game.ID)
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("%+v\n", sl)
-
-	return RenderTempl(w, r, core.GameView(sl))
+	return RenderTempl(w, r, core.GameView(game))
 }
 
 func (h *viewsHandler) historyView(w http.ResponseWriter, r *http.Request) error {
 	// TODO:
-	var gl []types.Game
+	var gl []*types.Game
 	gl, err := h.db.GetGameList()
 	if err != nil {
 		return err

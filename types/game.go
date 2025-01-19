@@ -13,8 +13,8 @@ type Game struct {
 	ID        int64 `bun:",pk,autoincrement"`
 	P1ID      int64
 	P2ID      int64
-	Player1   Player    `bun:"rel:belongs-to,join:p1id=id"`
-	Player2   Player    `bun:"rel:belongs-to,join:p2id=id"`
+	Player1   *Player   `bun:"rel:belongs-to,join:p1id=id"`
+	Player2   *Player   `bun:"rel:belongs-to,join:p2id=id"`
 	P1Stats   *Stats    `bun:"rel:has-one,join:p1id=player_id,join:id=game_id"`
 	P2Stats   *Stats    `bun:"rel:has-one,join:p2id=player_id,join:id=game_id"`
 	Winner    string    `bun:"winner"`

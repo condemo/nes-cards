@@ -125,10 +125,6 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	}
 
 	h.gc.SetGame(game)
-	sl, err := h.store.GetGameStats(game.ID)
-	if err != nil {
-		return err
-	}
 
-	return RenderTempl(w, r, core.GameView(sl))
+	return RenderTempl(w, r, core.GameView(game))
 }
