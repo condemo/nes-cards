@@ -49,7 +49,7 @@ func (h *playerHandler) createPlayer(w http.ResponseWriter, r *http.Request) err
 		)
 	}
 
-	player := types.NewPlayer(p, 80)
+	player := types.NewPlayer(p)
 	if err := player.Validate(); err != nil {
 		valErr, ok := err.(validator.ValidationErrors)
 		if ok {

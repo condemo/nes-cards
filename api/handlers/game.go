@@ -74,8 +74,8 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 	}
 
 	// Players create
-	player1 := types.NewPlayer(p1, playerHP)
-	player2 := types.NewPlayer(p2, playerHP)
+	player1 := types.NewPlayer(p1)
+	player2 := types.NewPlayer(p2)
 
 	if ok := h.store.CheckPlayer(player1.Name); !ok {
 		if err := h.store.CreatePlayer(player1); err != nil {
@@ -85,9 +85,6 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 		if err := h.store.GetPlayerByName(player1); err != nil {
 			return err
 		}
-		fmt.Printf("%+v", player1)
-		player1.HP = playerHP
-		fmt.Printf("%+v", player1)
 	}
 	if ok := h.store.CheckPlayer(player2.Name); !ok {
 		if err := h.store.CreatePlayer(player2); err != nil {
@@ -97,19 +94,19 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 		if err := h.store.GetPlayerByName(player2); err != nil {
 			return err
 		}
-		player2.HP = playerHP
 	}
 
 	// Create Game
 	game = types.NewGame(player1.ID, player2.ID)
 	if err := h.store.CreateGame(game); err != nil {
+		fmt.Println("error creando el game")
 		return err
 	}
 
-	p1t1, p1t2 := types.NewTower(game.ID, player1.ID, towerHP)
-	p2t1, p2t2 := types.NewTower(game.ID, player2.ID, towerHP)
+	p1Stats := types.NewStats(game.ID, player1.ID, playerHP, towerHP)
+	p2Stats := types.NewStats(game.ID, player2.ID, playerHP, towerHP)
 
-	tl := []*types.Tower{p1t1, p1t2, p2t1, p2t2}
+	tl := []*types.Stats{p1Stats, p2Stats}
 	for _, t := range tl {
 		if err := t.Validate(); err != nil {
 			return apiErrors.NewApiError(
@@ -118,10 +115,12 @@ func (h *gameHandler) newGamePost(w http.ResponseWriter, r *http.Request) error 
 				http.StatusBadRequest)
 		}
 	}
-	if err := h.store.CreateTowerList(tl); err != nil {
+	if err := h.store.CreatePlayerStats(tl); err != nil {
 		return err
 	}
 
+	// NOTE: Debería haber una mejor forma de hacer esto
+	// y no tener que hacer otra query
 	game, err := h.store.GetLastGame()
 	if err != nil {
 		return err
