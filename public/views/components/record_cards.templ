@@ -9,7 +9,7 @@ templ RecordCards(g *types.Game) {
 	<div id={ fmt.Sprintf("record-card-%d", g.ID) }>
 		<div class="card bg-base-100 shadow-xl">
 			<div class="card-body">
-				<h2 class="card-title">{ g.CreatedAt.Format("01/02/2006") }</h2>
+				<h2 class="card-title">{ g.CreatedAt.Format("02/01/2006") }</h2>
 				<div class="flex flex-row justify-around">
 					@SimplePlayerStat(g.Player1, g.Winner, g.P1Stats)
 					@SimplePlayerStat(g.Player2, g.Winner, g.P2Stats)
