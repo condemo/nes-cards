@@ -105,6 +105,7 @@ func (s *Storage) GetGameList() ([]*types.Game, error) {
 		Relation("Player2").Where("p2id=Player2.id").
 		Relation("P1Stats").Where("p1id = p1_stats.player_id").
 		Relation("P2Stats").Where("p2id = p2_stats.player_id").
+		Order("g.created_at DESC").
 		Scan(context.Background())
 	if err != nil {
 		return nil, err
