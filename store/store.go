@@ -13,7 +13,6 @@ type Store interface {
 	GetPlayerById(*types.Player) error
 	GetPlayerByName(*types.Player) error
 	GetPlayerList() ([]types.Player, error)
-	GetGameStats(int64) ([]types.Stats, error)
 	CreatePlayerStats([]*types.Stats) error
 	CreateGame(*types.Game) error
 	GetLastGame() (*types.Game, error)
@@ -83,16 +82,6 @@ func (s *Storage) CreateGame(g *types.Game) error {
 	}
 
 	return err
-}
-
-func (s *Storage) GetGameStats(gid int64) ([]types.Stats, error) {
-	sl := make([]types.Stats, 2)
-	err := s.db.NewSelect().Model(&sl).
-		Relation("Player").
-		Where("player_id = player.id").
-		Where("game_id = ?", gid).
-		Scan(context.Background())
-	return sl, err
 }
 
 func (s *Storage) GetLastGame() (*types.Game, error) {
