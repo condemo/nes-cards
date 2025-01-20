@@ -7,9 +7,6 @@ import (
 
 templ GameView(g *types.Game) {
 	<div id="game-view">
-		<!-- @components.PlayersResume(g.Player1, g.Player2, g.P1Stats.HP, g.P2Stats.HP) -->
-		<!-- @components.TowersResume(g.P1Stats.T1HP, g.P1Stats.T2HP) -->
-		<!-- @components.TowersResume(g.P2Stats.T1HP, g.P2Stats.T2HP) -->
 		@components.StructureZone(g.Player1, g.Player2, g.P1Stats, g.P2Stats)
 	</div>
 	@components.NavBottom("game")
