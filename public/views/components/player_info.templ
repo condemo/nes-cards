@@ -5,6 +5,14 @@ import (
 	"strconv"
 )
 
+templ StructureZone(p1, p2 *types.Player, p1Stats, p2Stats *types.Stats) {
+	<div id="structure-zone">
+		@PlayersResume(p1, p2, p1Stats.HP, p2Stats.HP)
+		@TowersResume(p1Stats)
+		@TowersResume(p2Stats)
+	</div>
+}
+
 templ PlayersResume(p1, p2 *types.Player, p1hp, p2hp uint8) {
 	<div id="players-resume" class="flex flex-row justify-around space-x-1">
 		@PlayerInfo(p1, p1hp, true)

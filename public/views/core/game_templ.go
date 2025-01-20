@@ -34,19 +34,11 @@ func GameView(g *types.Game) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"game-view\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"game-view\"><!-- @components.PlayersResume(g.Player1, g.Player2, g.P1Stats.HP, g.P2Stats.HP) --><!-- @components.TowersResume(g.P1Stats.T1HP, g.P1Stats.T2HP) --><!-- @components.TowersResume(g.P2Stats.T1HP, g.P2Stats.T2HP) -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.PlayersResume(g.Player1, g.Player2, g.P1Stats.HP, g.P2Stats.HP).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = components.TowersResume(g.P1Stats.T1HP, g.P1Stats.T2HP).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = components.TowersResume(g.P2Stats.T1HP, g.P2Stats.T2HP).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.StructureZone(g.Player1, g.Player2, g.P1Stats, g.P2Stats).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

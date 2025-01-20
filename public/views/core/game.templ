@@ -1,23 +1,24 @@
 package core
 
 import (
-"github.com/condemo/nes-cards/public/views/components"
-"github.com/condemo/nes-cards/types"
+	"github.com/condemo/nes-cards/public/views/components"
+	"github.com/condemo/nes-cards/types"
 )
 
 templ GameView(g *types.Game) {
-<div id="game-view">
-  @components.PlayersResume(g.Player1, g.Player2, g.P1Stats.HP, g.P2Stats.HP)
-  @components.TowersResume(g.P1Stats.T1HP, g.P1Stats.T2HP)
-  @components.TowersResume(g.P2Stats.T1HP, g.P2Stats.T2HP)
-</div>
-@components.NavBottom("game")
+	<div id="game-view">
+		<!-- @components.PlayersResume(g.Player1, g.Player2, g.P1Stats.HP, g.P2Stats.HP) -->
+		<!-- @components.TowersResume(g.P1Stats.T1HP, g.P1Stats.T2HP) -->
+		<!-- @components.TowersResume(g.P2Stats.T1HP, g.P2Stats.T2HP) -->
+		@components.StructureZone(g.Player1, g.Player2, g.P1Stats, g.P2Stats)
+	</div>
+	@components.NavBottom("game")
 }
 
 templ EmptyView() {
-<div id="empty-view">
-  <img src="/static/img/empty_meme.jpeg" class="w-56 mx-auto" />
-  <h1 class="text-3xl font-bold my-2">There is no game yet</h1>
-</div>
-@components.NavBottom("game")
+	<div id="empty-view">
+		<img src="/static/img/empty_meme.jpeg" class="w-56 mx-auto"/>
+		<h1 class="text-3xl font-bold my-2">There is no game yet</h1>
+	</div>
+	@components.NavBottom("game")
 }
